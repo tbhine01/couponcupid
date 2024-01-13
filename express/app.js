@@ -11,8 +11,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '/public/html/index.html'))
 })
 
+
 // Search Products
-app.get('/search/:item/:location', queries.searchProducts)
+app.get('/search-store/:item/:location', queries.searchProducts)
 
 app.listen(3000)
 console.log("Express App is running")
+

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ShoppingList from '../views/ShoppingList.vue'
+import General from '../views/GeneralList.vue'
+import FinalList from '../views/FinalList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,11 +12,17 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/shopping_list',
+      path: '/general',
+      name: 'general',
+      component: General
+    },
+    {
+      path: '/final-list',
       name: 'shopping-list',
-      component: ShoppingList
-    
+      component: FinalList
     }
+
+  
   ]
 })
 
