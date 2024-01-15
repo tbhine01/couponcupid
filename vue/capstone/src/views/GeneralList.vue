@@ -1,16 +1,36 @@
 <script setup>
 import { reactive, ref } from 'vue'
+import { useItemStore } from '../store/listStore.js'
 
+    const itemStore  = useItemStore()
+
+    console.log(itemStore)
     let shoppingList = reactive([])
 
     let groceryItem = ref('')
-    let editedItem = ref('')
-    
+    //let editedItem = ''
+    let editedIndex = null
+
+    // function getItemPrices() {
+    //     console.log(itemStore)
+    //     //make request
+    //     itemStore.items.value.push("testttttt")
+    // }
 
     function addItem(){
         if (groceryItem.value === ""){
             alert("Please Enter an Item")
-        }else{
+            return;
+        }
+        
+        //let existingItem = shoppingList.find(i=> i.item === editedItem);
+        if (editedIndex) {
+            let existingItem = shoppingList[editedIndex]
+            existingItem.item = groceryItem.value
+            //editedItem = ''
+            editedIndex = null
+        }
+        else {
             shoppingList.push(
                 {
                     item: groceryItem.value
@@ -18,7 +38,6 @@ import { reactive, ref } from 'vue'
             )
             // console.log(shoppingList)
         }
-
         const shoppingListJson = JSON.stringify(shoppingList)
         localStorage.setItem('array', shoppingListJson)
     }
@@ -28,20 +47,24 @@ import { reactive, ref } from 'vue'
         for(let i = 0; i < shoppingList.length; i++){
             if(shoppingList[i] === item){
                 shoppingList.splice(i, 1)
-                localStorage.removeItem(shoppingList[i])
+                //localStorage.removeItem(shoppingList[i])
+                const shoppingListJson = JSON.stringify(shoppingList)
+                localStorage.setItem('array', shoppingListJson)
             }
         }
     }
 
-    function editItem(item){
+    function editItem(row){
         for(let i = 0; i < shoppingList.length; i++){
-            if(shoppingList[i] === item){
-                shoppingList[i] = {
-                    item: groceryItem.value
-                }
-                editedItem = item
+            if(shoppingList[i] === row){
+                //shoppingList[i] = {
+                //    item: groceryItem.value
+                //}
+                groceryItem.value = row.item
+                //editedItem = row.item
+                editedIndex = shoppingList.indexOf(row)
             }
-            console.log(`edited item is ${editedItem}`)
+            console.log(`edited item is ${row}`)
         }
     }
 
@@ -72,7 +95,7 @@ import { reactive, ref } from 'vue'
     <table class="table">
   <thead>
     <tr>
-      <th scope="col">Quantity</th>
+      <!-- <th scope="col">Quantity</th> -->
       <th scope="col">Item</th>
       <th scope="col">Edit</th>
       <th scope="col">Delete</th>
@@ -80,7 +103,7 @@ import { reactive, ref } from 'vue'
   </thead>
   <tbody>
     <tr v-for="item in shoppingList">
-      <th id="quantity_container"><input type="number" id="quantity"></th>
+      <!-- <th id="quantity_container"><input type="number" id="quantity"></th> -->
       <td> {{ item.item }}</td>
       <td>
         <div @click="editItem(item)">
@@ -97,6 +120,8 @@ import { reactive, ref } from 'vue'
 </table>
 </div>
 
+<button @click="getItemPrices">Submit</button>
+<!-- call groceryItems -->
 
 </template>
 

@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 
 
 // Search Products
-app.get('/search-store/:item/:location', queries.searchProducts)
+app.post('/search-store', queries.getProducts)
 
 app.listen(3000)
 console.log("Express App is running")
