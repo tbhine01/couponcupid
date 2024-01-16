@@ -123,17 +123,34 @@ import { useItemStore } from '../store/listStore.js'
 <button @click="getItemPrices">Submit</button>
 <!-- call groceryItems -->
 
+<div class="prices">
+    <div>Estimated Total Price</div>
+    <div class="stores">
+        <div>
+            Store 1
+        </div>
+
+        <div>
+            Store 2
+        </div>
+    </div>
+</div>
+
 </template>
 
 
 <style scoped>
-    #quantity_container{
-        width: 1rem;
-    }
+  .prices{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+  }
 
-    #quantity{
-        width: 1.5rem;
-        border: hidden
-    }
+  .stores{
+    display: flex;
+    gap: 5rem;
+  }
 
 </style>

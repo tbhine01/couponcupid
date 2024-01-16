@@ -15,8 +15,8 @@
 
 <style scoped>
   .container{
-    background-color: #EEE5E5;
-    height: 50vh;
+    background-color: #ff4d6d;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,8 @@
     height: 10%;
     font-size: xx-large;
     border-radius: 30px;
-    background-color: #D34F73;
+    background-color: #ffb3c1;
     color: white;
+    border: none;
   }
 </style>

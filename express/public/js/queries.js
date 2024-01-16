@@ -8,7 +8,7 @@ function getProducts(req, res) {
   groceryItems.forEach(async item => {
     let categoryContainer = []
 
-    let krogerItems = await productSearch(item)
+    let krogerItems = await productSearch(item) || []
 
     krogerItems.forEach(item => {
       categoryContainer.push(
