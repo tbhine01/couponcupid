@@ -13,7 +13,13 @@ app.get("/", (req, res) => {
 
 
 // Search Products
-app.post('/search-store', queries.getProducts)
+
+app.post('/search-store', async (req, res) => {
+    let items = req.body.groceryItems
+    let krogerInfo = await queries.getProducts(items)
+    
+    res.send(krogerInfo)
+})
 
 app.listen(3000)
 console.log("Express App is running")
