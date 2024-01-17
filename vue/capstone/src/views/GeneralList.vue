@@ -2,32 +2,30 @@
 import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
 
-    const itemStore  = useItemStore()
 
+    const itemStore  = useItemStore()
     console.log(itemStore)
+
     let shoppingList = reactive([])
 
     let groceryItem = ref('')
-    //let editedItem = ''
     let editedIndex = null
 
-    // function getItemPrices() {
-    //     console.log(itemStore)
-    //     //make request
-    //     itemStore.items.value.push("testttttt")
-    // }
+    function submitList(){
+        console.log("SHOPPING LIST", shoppingList)
+        itemStore.addGroceryItems(shoppingList)
+        console.log("stuff", itemStore.groceryItems)
+    }
 
     function addItem(){
         if (groceryItem.value === ""){
             alert("Please Enter an Item")
             return;
         }
-        
-        //let existingItem = shoppingList.find(i=> i.item === editedItem);
+  
         if (editedIndex) {
             let existingItem = shoppingList[editedIndex]
             existingItem.item = groceryItem.value
-            //editedItem = ''
             editedIndex = null
         }
         else {
@@ -36,7 +34,12 @@ import { useItemStore } from '../store/listStore.js'
                     item: groceryItem.value
                 }
             )
-            // console.log(shoppingList)
+
+            itemStore.groceryItems.push(
+                {
+                    item: groceryItem.value
+                }
+            )
         }
         const shoppingListJson = JSON.stringify(shoppingList)
         localStorage.setItem('array', shoppingListJson)
@@ -56,7 +59,7 @@ import { useItemStore } from '../store/listStore.js'
 
     function editItem(row){
         for(let i = 0; i < shoppingList.length; i++){
-            if(shoppingList[i] === row){
+            if(shoppingList.value[i] === row){
                 //shoppingList[i] = {
                 //    item: groceryItem.value
                 //}
@@ -84,12 +87,12 @@ import { useItemStore } from '../store/listStore.js'
 
 <template>
 <div class="container">
-    <h1>Shopping List</h1>
+    <h1 id="title">Shopping List</h1>
 
     <!-- Input -->
-    <div>
-        <input v-model="groceryItem" type="text" placeholder="Enter Item">
-        <button @click="addItem">Add</button>
+    <div id="search_container">
+        <input v-model="groceryItem" type="text" id="search" placeholder="Enter Item">
+        <button id="add" @click="addItem">Add</button>
     </div>
 
     <table class="table">
@@ -120,7 +123,10 @@ import { useItemStore } from '../store/listStore.js'
 </table>
 </div>
 
-<button @click="getItemPrices">Submit</button>
+<div id="submit_container">
+    <button id="submit" @click="submitList">Submit</button> 
+</div>
+<!-- turn off button after 1 click -->
 <!-- call groceryItems -->
 
 <div class="prices">
@@ -140,6 +146,24 @@ import { useItemStore } from '../store/listStore.js'
 
 
 <style scoped>
+#title{
+    text-align: center;
+}
+
+#search_container{
+    display: flex;
+    justify-content: center;
+}
+
+#search{
+    border-radius: 1rem;
+    text-align: center;
+    width: 30rem;
+}
+
+#add{
+    border-radius: 2rem;
+}
   .prices{
     display: flex;
     flex-direction: column;
@@ -151,6 +175,17 @@ import { useItemStore } from '../store/listStore.js'
   .stores{
     display: flex;
     gap: 5rem;
+  }
+
+  #submit_container{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+  }
+
+  #submit{
+    border-radius: 2rem;
+    width: 15rem;
   }
 
 </style>

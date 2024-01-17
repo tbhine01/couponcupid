@@ -1,15 +1,22 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const useItemStore = defineStore('items', () => {
-    const groceryItems = ref([])
+const SETTINGS_LOCAL_STORAGE_KEY = 'settings'
 
-    return {
-        groceryItems
+export const useItemStore = defineStore('items', {
+    state: () => {
+        if (localStorage.getItem("groceryItems"))
+        return JSON.parse(localStorage.getItem("groceryItems"))
+    }, 
+    actions: {
+        addGroceryItems(items){
+            this.groceryItems.push(...items)
+            localStorage.setItem("groceryItems")
+        }
     }
 })
 
-export { useItemStore }
+// export { useItemStore }
 
 
 

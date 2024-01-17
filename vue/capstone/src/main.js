@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, watch } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
@@ -12,5 +12,13 @@ const pinia = createPinia()
 
 app.use(router)
 app.use(pinia)
+
+watch(
+    pinia.state,
+    (state) => {
+      localStorage.setItem("groceryItems", JSON.stringify(state.groceryItems));
+    },
+    { deep: true }
+    );
 
 app.mount('#app')
