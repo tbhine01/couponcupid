@@ -4,7 +4,7 @@ async function productSearch(item) {
   const location = "02400752"
 
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCIsImV4cCI6MTcwNTUxMDE1MywiaWF0IjoxNzA1NTA4MzQ4LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6ImQxZDFhOTA3LWMxMWQtNTlkYi05ODJkLTRkNzViMTZiNTQyMSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzA1NTA4MzUzNDU5ODEwMzc0LCJhenAiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCJ9.kaQrfg3tdAuqMwYijuFs67fTMnV6Z2o6BKp1mOPzqeBDMDhyOkRn7iQVT_3gbdgPh4qdNSpOC_86W60ZVNTwsGQa_sCs2lVfv0C1Ih9PawGv0A13VAE7C3kas0pXHTORbz3LF0Eomdnadbvcn3X3IXD2Pw8NgdOpI-hNfKQd0LyJ_RwcKFp6HIXbg5ZAaPqEyXVR8sE9AhOH3eDgH-wuI2DmXv05khHPwjuseH6u32LWLLhVKmreJsQxrQTqY_JbAB43CtKRiyy77D5SvQG54T3jueBQJHUplx4qUFlH17fl4i6CvH-FSF3AvNi4n2nsaXd7OaJd8uc7c_IbMfjmaQ");
+  myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCIsImV4cCI6MTcwNTUzMTEyNSwiaWF0IjoxNzA1NTI5MzIwLCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6ImQxZDFhOTA3LWMxMWQtNTlkYi05ODJkLTRkNzViMTZiNTQyMSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzA1NTI5MzI1ODQ1NDg4ODU5LCJhenAiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCJ9.Oy1o0wP0GHAIYf3U6SrRlWMuqp6ncEzEIuSfhm2om2GzP3FE2a-bWOspILs3QFGxgA9ZvLqb9jJG8Fb-7g5GiXw-cDNp4Nj68Wbtdwh_asN3cbfY2_HUdaWEs9RxxAJsJvdmnRQZeRcHvBKDe-Fhvm1-8MjqYdfqoKe_Onyy485yFAGmxNvwRwe8eC20CFNcu4qenyXolZ4v0v1OGKQ483L5e1iqBWZi5KdiFw9Frs4qWSdhqA62Ao0X3f1akwS_4hwGakT_EFLnEMqU2JwkocyG9LinS39hEvorGhINtvUhFaln8nWVyLMPa1jgE063RoY5Q9MypftOI1T5oGtgfA");
 
   var requestOptions = {
     method: 'GET',
@@ -55,6 +55,26 @@ async function getProducts(groceryItems) {
 }
 
 
+function getCoupons(productId){
+  var myHeaders = new Headers();
+    myHeaders.append("Accept-Language", "en-US");
+    myHeaders.append("x-mock-response-code", "200");
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch(`https://api.kroger.com//experimental/savings/v0/discounts?filter.productId=${productId}&page.size=1&page.offset=0`, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+
+}
+
 module.exports = {
-  productSearch, getProducts
+  productSearch, 
+  getProducts,
+  getCoupons
 }

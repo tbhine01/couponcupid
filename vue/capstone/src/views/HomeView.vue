@@ -1,4 +1,10 @@
 <script setup>
+import router from '@/router';
+
+function get_started(){
+  router.push('/general')
+}
+
 
 </script>
 
@@ -9,7 +15,7 @@
 
   <div class="container">
     <h1 id="title">CouponCupid</h1>
-    <button>Get Started!</button>
+    <button id="get_started" @click="get_started">Get Started!</button>
   </div>
 </template>
 
@@ -29,7 +35,7 @@
     font-size: 500%;
   }
 
-  button{
+  #get_started{
     width: 50vw;
     height: 10%;
     font-size: xx-large;

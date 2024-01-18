@@ -23,23 +23,16 @@ import { useItemStore } from '../store/listStore.js'
             return;
         }
   
-        if (editedIndex) {
+        if (editedIndex != null ) {
             let existingItem = shoppingList[editedIndex]
             existingItem.item = groceryItem.value
             editedIndex = null
         }
         else {
-            shoppingList.push(
-                {
-                    item: groceryItem.value
-                }
-            )
+            console.log(groceryItem.value)
+            shoppingList.push(groceryItem.value)
 
-            itemStore.groceryItems.push(
-                {
-                    item: groceryItem.value
-                }
-            )
+            itemStore.groceryItems.push(groceryItem.value)
         }
         const shoppingListJson = JSON.stringify(shoppingList)
         localStorage.setItem('array', shoppingListJson)
@@ -107,7 +100,7 @@ import { useItemStore } from '../store/listStore.js'
   <tbody>
     <tr v-for="item in shoppingList">
       <!-- <th id="quantity_container"><input type="number" id="quantity"></th> -->
-      <td> {{ item.item }}</td>
+      <td> {{ item }}</td>
       <td>
         <div @click="editItem(item)">
             <span class="fa fa-pen"></span>
