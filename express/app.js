@@ -2,6 +2,7 @@ const express = require("express")
 const path = require("path")
 const app = express()
 const queries = require('./public/js/queries.js')
+const couponJson = require('./public/js/couponJson.js')
 const bodyParser = require('body-parser')
 const cors = require("cors")
 
@@ -29,12 +30,24 @@ app.post('/search-store', async (req, res) => {
     res.send(krogerInfo)
 })
 
-app.get('/coupons', async (req, res) => {
-    let productId = req.body.productId
-    let coupons = await queries.getCoupons(productId)
+// app.get('/coupons', async (req, res) => {
+//     let productId = req.body.productId
+//     let coupons = await queries.getCoupons(productId)
 
-    res.send(coupons)
-} )
+//     res.send(coupons)
+// } )
+
+app.post('/coupons', (req, res) => {
+    // res.send(couponJson.coupons)
+
+    const productInput = req.body.productId
+
+    for(let i = 0; i < couponJson.coupons.length; i++){
+        if(couponJson.coupons[i].productId == productInput){
+            res.send(couponJson.coupons[i])
+        }
+    }
+})
 
 app.listen(3000)
 console.log("Express App is running")

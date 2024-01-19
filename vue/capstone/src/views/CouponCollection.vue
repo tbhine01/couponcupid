@@ -1,5 +1,20 @@
 <script setup>
-
+fetch("http://localhost:3000/coupons",
+    {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: {"productId": "0024096150000"}
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        // results.push(...data)
+        console.log(data)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 </script>
 
 
@@ -13,7 +28,7 @@
 
 <style scoped>
 .container{
-    background-color: #ff4d6d;
+    background-color: #fadde1;
     height: 100vh;
     display: flex;
     flex-direction: column;

@@ -1,21 +1,60 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed, reactive } from 'vue'
 
-export const useItemStore = defineStore('items', {
-    state: () => ({
-        groceryItems: []
-    }),
-    actions: {
-        addGroceryItems(items) {
-            this.groceryItems.push(...items)
-        }
-    },
-    getters: {
-        getStored: (state) => {
-            return state.groceryItems
-        }
-    },
+export const useItemStore = defineStore('items', () => {
+    const state = reactive({
+        groceryItems: [],
+        krogerItems: []
+    })
+
+    function addGroceryItems(items) {
+        state.groceryItems.push(...items)
+    }
+
+    function addKrogerItems(items) {
+        state.krogerItems.push(...items)
+    }
+
+    const getStored = computed(() => {
+        return state.groceryItems
+    })
+
+    // getter for Kroger Items
+
+    const getKrogerHighest = computed(() => {
+        let max = 0
+        state.krogerItems.forEach(category => {
+           let highestPrice = category.items.reduce(function (lowest, curr) {
+                try {
+                    return lowest.price.regular > curr.price.regular ? lowest : curr
+                }
+                catch (error) {
+                    console.log(error)
+                }
+            })
+        max += highestPrice.price.regular
+    })
+        return max
+    })
+
+    const getKrogerLowest = computed(() => {
+        let min = 0
+        state.krogerItems.forEach(category => {
+           let lowestPrice = category.items.reduce(function (lowest, curr) {
+                try {
+                    return lowest.price.regular < curr.price.regular ? lowest : curr
+                }
+                catch (error) {
+                    console.log(error)
+                }
+            })
+        min += lowestPrice.price.regular
+    })
+        return min
+    })
+
     persist: true
+    return { state, addGroceryItems, addKrogerItems, getStored, getKrogerHighest, getKrogerLowest}
 })
 // export { useItemStore }
 

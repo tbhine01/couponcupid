@@ -6,7 +6,7 @@ import piniaPluginPersistedState from "pinia-plugin-persistedstate"
 
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
-import { tables } from 'bootstrap-css'
+import { tables, forms, buttonGroup } from 'bootstrap-css'
 
 const app = createApp(App)
 const pinia = createPinia()
