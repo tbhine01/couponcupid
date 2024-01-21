@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia'
 let results = reactive([])
 let storedItems = useItemStore()
 
-console.log("stored items", storedItems.state.krogerItems)
+console.log("stored items", storedItems.getStoredKrogerItems)
 
 
 
