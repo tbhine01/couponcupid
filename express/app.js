@@ -2,7 +2,6 @@ const express = require("express")
 const path = require("path")
 const app = express()
 const queries = require('./public/js/queries.js')
-const couponJson = require('./public/js/couponJson.js')
 const bodyParser = require('body-parser')
 const cors = require("cors")
 

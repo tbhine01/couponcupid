@@ -2,7 +2,7 @@ const coupons = [
     {
         "id": "82c6b2fb-3184-4e86-82c9-fa33002fdb09",
         "versionKey": "5692cc40af18",
-        "productId": "7495563456235",
+        "productId": "0000000004056",
         "title": "Save $1.00 on 1 Private Selection Mango Banana & Strawberry Blend",
         "description": "Save $1.00 on Private Selection Mango Banana & Strawberry Blend",
         "startDatetime": {
