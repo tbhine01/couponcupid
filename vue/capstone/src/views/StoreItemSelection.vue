@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue'
-import { useItemStore } from '@/store/listStore';
+import { useItemStore } from '../store/listStore.js';
 import { storeToRefs } from 'pinia'
 
 let results = reactive([])
@@ -8,22 +8,7 @@ let storedItems = useItemStore()
 
 console.log("stored items", storedItems.state.krogerItems)
 
-fetch("http://localhost:3000/search-store",
-    {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ "groceryItems": storedItems.getStored() })
-    })
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        results.push(...data)
-        console.log(results)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+
 
     // function chooseProduct(){
     //    let color =  document.getElementsByClassName("selected")

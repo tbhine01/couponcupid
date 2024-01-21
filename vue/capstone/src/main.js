@@ -8,11 +8,12 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 import { tables, forms, buttonGroup } from 'bootstrap-css'
 
-const app = createApp(App)
 const pinia = createPinia()
+pinia.use(piniaPluginPersistedState)
 
+const app = createApp(App)
 app.use(router)
 app.use(pinia)
-pinia.use(piniaPluginPersistedState)
+
 
 app.mount('#app')

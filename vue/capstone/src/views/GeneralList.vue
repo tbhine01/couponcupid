@@ -24,7 +24,9 @@ function submitList() {
             return response.json()
         })
         .then((data) => {
+            console.log(itemStore.getStored)
             itemStore.addKrogerItems(data)
+            console.log(itemStore.getStoredKrogerItems)
         })
         .catch((error) => {
             console.log(error)

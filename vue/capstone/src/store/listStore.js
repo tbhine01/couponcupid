@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive} from 'vue'
 
 export const useItemStore = defineStore('items', () => {
     const state = reactive({
@@ -7,19 +7,24 @@ export const useItemStore = defineStore('items', () => {
         krogerItems: []
     })
 
+
     function addGroceryItems(items) {
         state.groceryItems.push(...items)
     }
 
     function addKrogerItems(items) {
+        console.log(items)
         state.krogerItems.push(...items)
+        console.log("state krogeritems", state.krogerItems)
     }
 
     const getStored = computed(() => {
         return state.groceryItems
     })
 
-    // getter for Kroger Items
+    const getStoredKrogerItems = computed(() => {
+        return state.krogerItems
+    })
 
     const getKrogerHighest = computed(() => {
         let max = 0
@@ -53,9 +58,8 @@ export const useItemStore = defineStore('items', () => {
         return min
     })
 
-    persist: true
-    return { state, addGroceryItems, addKrogerItems, getStored, getKrogerHighest, getKrogerLowest}
-})
+    return { state, addGroceryItems, addKrogerItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems}
+}, {persist: true})
 // export { useItemStore }
 
 
