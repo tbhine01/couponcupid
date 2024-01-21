@@ -88,8 +88,6 @@ if (localStorage.getItem("shoppingList") === null) {
 const str = localStorage.getItem('array')
 const parsedArray = JSON.parse(str)
 
-// console.log(parsedArray)
-
 </script>
 
 
@@ -110,7 +108,6 @@ const parsedArray = JSON.parse(str)
         <table class="table">
             <thead>
                 <tr>
-                    <!-- <th scope="col">Quantity</th> -->
                     <th scope="col">Item</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
@@ -118,7 +115,6 @@ const parsedArray = JSON.parse(str)
             </thead>
             <tbody>
                 <tr v-for="item in shoppingList">
-                    <!-- <th id="quantity_container"><input type="number" id="quantity"></th> -->
                     <td> {{ item }}</td>
                     <td>
                         <div @click="editItem(item)">

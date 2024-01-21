@@ -3,33 +3,28 @@ import { ref, reactive } from 'vue'
 import { useItemStore } from '../store/listStore.js';
 import { storeToRefs } from 'pinia'
 
-let results = reactive([])
-let storedItems = useItemStore()
+let itemStore = useItemStore()
 
-console.log("stored items", storedItems.getStoredKrogerItems)
-
-
-
-    // function chooseProduct(){
-    //    let color =  document.getElementsByClassName("selected")
-    //     document.body.style.color = "purple"
-    // }
-
+function chooseProduct(selected){
+    console.log(selected)
+    itemStore.addFinalSelectedItems(selected)
+}
 </script>
 
 
 <template>
     <div class="container">
-        <div class="category">
-            <div class="item_box" v-for="item in results">
-                <h3>{{ item.category }}</h3>
-                <div @click="chooseProduct" class="products selected" v-for="stuff in item.items">
-                    <img class :src=stuff.image>
-                    <p>{{ stuff.description }}</p>
-                    <p>{{ stuff.price.regular }}</p>
+        <div class="category" v-for="group in itemStore.getStoredKrogerItems">
+            <h3>{{ group.category }}</h3>
+            <div class="item_box">
+                <div class="products" @click="chooseProduct(item)" v-for="item in group.items">
+                    <img :src=item.image>
+                    <p>{{ item.description }}</p>
+                    <p>{{ item.price.regular }}</p>
                 </div>
             </div>
         </div>
+        <button>Submit</button>
     </div>
 </template>
 
@@ -51,18 +46,8 @@ h3{
     display: flex;
 }
 
-/* .item_box {
-    display: inline-block;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    gap: 1rem;
-    margin-left: 1rem;
-} */
-
 .products {
     background-color: #fff0f3;
-    border: 1px grey solid;
     height: 100%;
     width: 25rem;
     text-align: center;

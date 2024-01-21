@@ -4,9 +4,9 @@ import { ref, computed, reactive} from 'vue'
 export const useItemStore = defineStore('items', () => {
     const state = reactive({
         groceryItems: [],
-        krogerItems: []
+        krogerItems: [],
+        selectedItems: []
     })
-
 
     function addGroceryItems(items) {
         state.groceryItems.push(...items)
@@ -16,6 +16,12 @@ export const useItemStore = defineStore('items', () => {
         console.log(items)
         state.krogerItems.push(...items)
         console.log("state krogeritems", state.krogerItems)
+    }
+
+    function addFinalSelectedItems(items){
+        console.log("this worked")
+        state.selectedItems.push(items)   
+        console.log(state.selectedItems)
     }
 
     const getStored = computed(() => {
@@ -58,7 +64,7 @@ export const useItemStore = defineStore('items', () => {
         return min
     })
 
-    return { state, addGroceryItems, addKrogerItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems}
+    return { state, addGroceryItems, addKrogerItems, addFinalSelectedItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems}
 }, {persist: true})
 // export { useItemStore }
 
