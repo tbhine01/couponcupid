@@ -36,8 +36,6 @@ async function productSearch(item) {
       "image": image.url,
       "coupon": coupon == [] ? null : coupon[0]
     }
-
-    // console.log(data.data)
     return formattedItem
   })
 }
@@ -59,8 +57,25 @@ async function getProducts(groceryItems) {
   return formattedItems
 }
 
+async function getLocations(zipcode){
+  var myHeaders = new Headers();
+myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCIsImV4cCI6MTcwNTk0NzcyNiwiaWF0IjoxNzA1OTQ1OTIxLCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6ImQxZDFhOTA3LWMxMWQtNTlkYi05ODJkLTRkNzViMTZiNTQyMSIsInNjb3BlIjoiIiwiYXV0aEF0IjoxNzA1OTQ1OTI2NTk1NTY3MzQzLCJhenAiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCJ9.NmWVnbJYrhGkQGMghIfeuFjMj_f26OT-E81b6M1_ZoAy8ALnGBz1fZQurYUV_VKTyfRLNJ5oCAZw_lZvQKxFFaKWgczEf5LvRtLMIWPmCP5Y5i62en3e_KOi1MzbWUlgd7VpIJzZLo0gbS3QAjGGPfdk1zgqK7y4wjzXcabN6ZGYgvFP1eIqZZOI2m_RLpacCofw7DF3XM-oCMyS57eFlYHSK4LKJleT3VofDafZxHAQXPr3-HxO2cE9Kl7Xc7Dm-xTWC_cXrF0BmcTfd4qbJZwsFiriujq4gyaIuHgWSRasvtYHDHJUKUK32Sde4o-W9uT9R7QspvHaBIg-sRpVjA");
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+
 
 module.exports = {
   productSearch,
-  getProducts
+  getProducts, 
+  getLocations
 }

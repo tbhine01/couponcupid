@@ -48,6 +48,13 @@ app.post('/coupons', (req, res) => {
     }
 })
 
+app.post('locations', async (req, res) => {
+    let zipcode = req.body.zipcode
+    let locations = await queries.getLocations(zipcode)
+
+    res.send(locations)
+})
+
 app.listen(3000)
 console.log("Express App is running")
 
