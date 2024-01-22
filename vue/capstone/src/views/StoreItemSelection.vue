@@ -7,8 +7,9 @@ import router from '@/router';
 let itemStore = useItemStore()
 
 function chooseProduct(selected){
-    console.log(selected)
     itemStore.addFinalSelectedItems(selected)
+    let div = document.getElementById(selected.productId)
+    div.classList.add("selected")
 }
 
 function finalList(){
@@ -26,9 +27,9 @@ function finalList(){
         <div class="category" v-for="group in itemStore.getStoredKrogerItems">
             <h3 class="category_title">{{ group.category }}</h3>
             <div class="item_box">
-                <div class="products" @click="chooseProduct(item)" v-for="item in group.items">
+                <div class="products" v-bind:id="item.productId" @click="chooseProduct(item)" v-for="item in group.items">
                     <img :src=item.image>
-                    <p>{{ item.description }}</p>
+                    <p>{{ item.description }} {{ index }}</p>
                     <span class="prices">${{ item.price.regular }}</span>
                     <span class="prices promo" v-if="item.price.promo > 0"> ${{ item.price.promo }}</span>
                     <p class="coupon_icon" v-if="item.coupon"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-through-heart-fill" viewBox="0 0 16 16">
@@ -85,6 +86,10 @@ function finalList(){
     border-radius: 10px;
 }
 .products:hover{
+    background-color: #ff8fa3;
+}
+
+.selected{
     background-color: #ff8fa3;
 }
 

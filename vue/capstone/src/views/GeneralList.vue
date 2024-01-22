@@ -40,7 +40,11 @@ function addItem() {
 
     if (editedIndex != null) {
         let existingItem = list[editedIndex]
-        existingItem.item = groceryItem.value
+        console.log(list)
+        console.log("edited index", editedIndex)
+        console.log(existingItem)
+        existingItem = groceryItem.value
+        list[editedIndex] = existingItem
         editedIndex = null
     }
     else {
@@ -66,9 +70,10 @@ function editItem(row) {
             //shoppingList[i] = {
             //    item: groceryItem.value
             //}
-            groceryItem.value = row.item
+            groceryItem.value = list[i]
             //editedItem = row.item
-            editedIndex = list.indexOf(row)
+            editedIndex = i
+            console.log(list)
         }
         console.log(`edited item is ${row}`)
     }
@@ -133,7 +138,7 @@ function editItem(row) {
 
                 <div class="store_container">
                     <h4 class="store_name">Publix</h4>
-                    <h4>${{ (itemStore.getKrogerLowest)*5 }} - ${{ (itemStore.getKrogerHighest)*5 }}</h4>
+                    <h4>${{ (itemStore.getKrogerLowest) + (itemStore.getKrogerLowest) * 0.15 }} - ${{ (itemStore.getKrogerHighest) + (itemStore.getKrogerHighest) * 0.15}}</h4>
                 </div>
             </div>
         </div>

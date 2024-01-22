@@ -14,14 +14,15 @@ function get_started(){
   <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
   <div class="container">
-    <!-- <h1 id="title">CouponCupid</h1> -->
-    <img id="logo" src='../assets/couponcupid.png' alt="">
+    <img id="logo" src='../assets/transparentlogo.png' alt="CouponCupid Logo">
+      <h1 id="title">CouponCupid</h1>
     <button id="get_started" @click="get_started">Get Started!</button>
   </div>
 </template>
 
 <style scoped>
   .container{
+    padding: 0 !important; 
     background-image: url('../assets/background.png');
     background-color: #ff4d6d;
     height: 100vh;
@@ -30,7 +31,6 @@ function get_started(){
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5rem;
   }
 
   #logo{

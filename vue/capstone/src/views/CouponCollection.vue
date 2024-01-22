@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
 
 const itemStore = useItemStore()
+console.log(itemStore.getFinalListItems[0].coupon.title)
 </script>
 
 
@@ -15,7 +16,7 @@ const itemStore = useItemStore()
 <div class="container">
     <h1>Your Coupon Collection</h1>
     <div v-for="item in itemStore.getFinalListItems">
-        <h6> {{ item.coupon }}</h6>
+        <h6 v-if="item.coupon != undefined"> {{ item.coupon.title }}</h6>
     </div>
 </div>
 
@@ -25,7 +26,7 @@ const itemStore = useItemStore()
 <style scoped>
 .container{
     background-color: #fadde1;
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;

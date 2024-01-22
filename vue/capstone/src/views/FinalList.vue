@@ -12,13 +12,28 @@ function couponCollection(){
 }
 
 function deleteItem(item) {
-    for (let i = 0; i < shoppingList.length; i++) {
-        if (shoppingList[i] === item) {
-            shoppingList.splice(i, 1)
+    for (let i = 0; i < itemStore.getFinalListItems.length; i++) {
+        if (itemStore.getFinalListItems[i] === item) {
+            itemStore.getFinalListItems.splice(i, 1)
         }
     }
 }
 
+function total(){
+   let finalList = itemStore.getFinalListItems
+   let total = 0
+   console.log(finalList)
+   for(let i = 0; i < finalList.length; i++){
+        if(finalList[i].price.promo != 0){
+            total += finalList[i].price.promo
+        }else{
+            total += finalList[i].price.regular
+        }
+   }
+   console.log(total)
+   return total
+}
+total()
 </script>
 
 
@@ -63,7 +78,7 @@ function deleteItem(item) {
         </table>
         <div class="total_container">
             <h3 class="total">Total</h3>
-            <h5>$</h5>
+            <h5>$ {{ total() }}</h5>
         </div>
     </div>
 </template>
