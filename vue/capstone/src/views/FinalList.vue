@@ -1,14 +1,15 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
-
+import router from '@/router';
 
 const itemStore = useItemStore()
 
 console.log(itemStore.getFinalListItems)
 
-let groceryItem = ref('')
-
+function couponCollection(){
+    router.push('/coupons')
+}
 
 function deleteItem(item) {
     for (let i = 0; i < shoppingList.length; i++) {
@@ -27,8 +28,11 @@ function deleteItem(item) {
 <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
     <div class="container">
-        <h1 id="title">Shopping List</h1>
-
+        <div class="header_container">
+            <h1 id="title">Shopping List</h1>
+            <button class="coupon_button" @click="couponCollection">Coupon Collection</button>
+        </div>
+       
         <table class="table">
             <thead>
                 <tr>
@@ -72,6 +76,23 @@ function deleteItem(item) {
     height: 100%;
 }
 
+.header_container{
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.coupon_button{
+    margin-top: 2.5rem;
+    border-radius: 2rem;
+    background-color: #ffc2d1;
+    color: #ff0a54;
+    border: none;
+    width: 10rem;
+    height: 3rem;
+    font-weight: bolder;
+    font-family: 'Lobster', sans-serif;
+}
 
 #title {
     text-align: center;
@@ -114,6 +135,8 @@ td {
 }
 
 .total{
-    
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
+
 </style>

@@ -7,10 +7,15 @@ const itemStore = useItemStore()
 
 
 <template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+
 <div class="container">
     <h1>Your Coupon Collection</h1>
     <div v-for="item in itemStore.getFinalListItems">
-        <h6> {{ item.coupon.title }}</h6>
+        <h6> {{ item.coupon }}</h6>
     </div>
 </div>
 
@@ -26,5 +31,10 @@ const itemStore = useItemStore()
     flex-direction: column;
     align-items: center;
     gap: 5rem;
+}
+
+h1{
+    font-family: 'Lobster', sans-serif;
+    margin-top: 1rem;
 }
 </style>

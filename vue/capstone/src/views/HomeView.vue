@@ -14,7 +14,8 @@ function get_started(){
   <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
   <div class="container">
-    <h1 id="title">CouponCupid</h1>
+    <!-- <h1 id="title">CouponCupid</h1> -->
+    <img id="logo" src='../assets/couponcupid.png' alt="">
     <button id="get_started" @click="get_started">Get Started!</button>
   </div>
 </template>
@@ -30,6 +31,10 @@ function get_started(){
     align-items: center;
     justify-content: center;
     gap: 5rem;
+  }
+
+  #logo{
+    border-radius: 10px;
   }
 
   #title{

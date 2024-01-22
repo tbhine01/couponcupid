@@ -39,7 +39,9 @@ function finalList(){
                 </div>
             </div>
         </div>
-        <button class="submit" @click="finalList">Submit</button>
+        <div class="submit_container">
+            <button class="submit" @click="finalList">Submit</button>
+        </div>
     </div>
 </template>
 
@@ -113,10 +115,16 @@ function finalList(){
     visibility: visible;
 }
 
+.submit_container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
 .submit{
     width: 50rem;
     height: 3rem;
-    margin-left: 50vh;
+    /* margin-left: 50vh; */
     background-color: #ffc2d1;
     border: none;
     border-radius: 15px;
