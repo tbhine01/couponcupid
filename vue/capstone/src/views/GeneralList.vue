@@ -1,19 +1,20 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
-
+import router from '@/router';
 
 const itemStore = useItemStore()
-// console.log(itemStore)
 
-let shoppingList = reactive([])
+function storePage(){
+  router.push('/store-items')
+}
+
 
 let groceryItem = ref('')
 let editedIndex = null
 
 function submitList() {
-    itemStore.addGroceryItems(shoppingList)
-// move fetch to itemStore
+
     fetch("http://localhost:3000/search-store",
         {
             method: "POST",
@@ -34,59 +35,43 @@ function submitList() {
 }
 
 function addItem() {
-    if (groceryItem.value === "") {
-        alert("Please Enter an Item")
-        return;
-    }
+    let list = itemStore.state.groceryItems
 
     if (editedIndex != null) {
-        let existingItem = shoppingList[editedIndex]
+        let existingItem = list[editedIndex]
         existingItem.item = groceryItem.value
         editedIndex = null
     }
     else {
-        // console.log(groceryItem.value)
-        shoppingList.push(groceryItem.value)
         itemStore.state.groceryItems.push(groceryItem.value)
+        console.log(itemStore.state.groceryItems)
     }
-    const shoppingListJson = JSON.stringify(shoppingList)
-    localStorage.setItem('array', shoppingListJson)
 }
 
 
 function deleteItem(item) {
-    for (let i = 0; i < shoppingList.length; i++) {
-        if (shoppingList[i] === item) {
-            shoppingList.splice(i, 1)
-            //localStorage.removeItem(shoppingList[i])
-            const shoppingListJson = JSON.stringify(shoppingList)
-            localStorage.setItem('array', shoppingListJson)
+    let list = itemStore.state.groceryItems
+    for (let i = 0; i < list.length; i++) {
+        if (list[i] === item) {
+            list.splice(i, 1)
         }
     }
 }
 
 function editItem(row) {
-    for (let i = 0; i < shoppingList.length; i++) {
-        if (shoppingList.value[i] === row) {
+    let list = itemStore.state.groceryItems
+    for (let i = 0; i < list.length; i++) {
+        if (list[i] === row) {
             //shoppingList[i] = {
             //    item: groceryItem.value
             //}
             groceryItem.value = row.item
             //editedItem = row.item
-            editedIndex = shoppingList.indexOf(row)
+            editedIndex = list.indexOf(row)
         }
         console.log(`edited item is ${row}`)
     }
 }
-
-if (localStorage.getItem("shoppingList") === null) {
-    addItem()
-} else {
-    JSON.parse(localStorage.getItem(shoppingList))
-}
-
-const str = localStorage.getItem('array')
-const parsedArray = JSON.parse(str)
 
 </script>
 
@@ -114,7 +99,7 @@ const parsedArray = JSON.parse(str)
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in shoppingList">
+                <tr v-for="item in itemStore.state.groceryItems">
                     <td> {{ item }}</td>
                     <td>
                         <div @click="editItem(item)">
@@ -132,23 +117,22 @@ const parsedArray = JSON.parse(str)
    
 
         <div id="submit_container">
-            <button id="submit" @click="submitList">Submit</button>
+            <button id="submit" v-on:click="submitList">Submit</button>
         </div>
-        <!-- turn off button after 1 click -->
-        <!-- call groceryItems -->
 
         <div class="prices">
             <div>
                 <h3 id="estimate">Estimated Total Price </h3>
             </div>
             <div class="stores">
-                <div>
+                <div class="store_container" @click="storePage">
                     <h4 class="store_name">Kroger</h4>
-                    <h4>{{ itemStore.getKrogerLowest }} - {{ itemStore.getKrogerHighest }}</h4>
+                    <h4>${{ itemStore.getKrogerLowest }} - ${{ itemStore.getKrogerHighest }}</h4>
                 </div>
 
-                <div>
+                <div class="store_container">
                     <h4 class="store_name">Publix</h4>
+                    <h4>${{ (itemStore.getKrogerLowest)*5 }} - ${{ (itemStore.getKrogerHighest)*5 }}</h4>
                 </div>
             </div>
         </div>
@@ -158,7 +142,7 @@ const parsedArray = JSON.parse(str)
 
 <style scoped>
 .container{
-    background-color: #fadde1;
+    background-color: #ffe5ec;
     height: 100vh;
     width: 100vw;
 }
@@ -176,19 +160,24 @@ const parsedArray = JSON.parse(str)
     border-radius: 1rem;
     text-align: center;
     width: 30rem;
+    font-family: 'Lobster', sans-serif;
 }
 
 #add {
     margin-left: 1rem;
     border-radius: 2rem;
-}
-
-.table{
+    background-color: #ffc2d1;
+    color: #ff0a54;
+    border: none;
+    width: 4rem;
+    font-weight: bolder;
     font-family: 'Lobster', sans-serif;
 }
 
 th{
     text-align: center;
+    font-size: 200%;
+    font-family: 'Lobster', sans-serif;
 }
 
 tr{
@@ -197,10 +186,32 @@ tr{
 
 td{
     text-align: center;
+    font-size: 150%;
+    text-transform: capitalize;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
 
 #estimate{
     text-decoration: underline;
+    font-family: 'Lobster', sans-serif;
+}
+
+#submit_container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+#submit {
+    width: 50rem;
+    height: 3rem;
+    background-color: #ffc2d1;
+    border: none;
+    border-radius: 15px;
+    font-size: 2rem;
+    color: #ff0a54;
+    font-weight: bold;
     font-family: 'Lobster', sans-serif;
 }
 
@@ -211,24 +222,19 @@ td{
     justify-content: center;
     width: 100vw;
 }
-
 .stores {
     display: flex;
     gap: 5rem;
+    text-align: center;
+}
+.store_container:hover{
+    border: solid 10px white;
+    padding: 1rem;
 }
 
 .store_name{
     font-family: 'Lilita One', sans-serif;
+    font-weight: bold;
 }
 
-#submit_container {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 1rem;
-}
-
-#submit {
-    border-radius: 2rem;
-    width: 15rem;
-}
 </style>

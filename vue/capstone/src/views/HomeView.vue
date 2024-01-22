@@ -21,8 +21,10 @@ function get_started(){
 
 <style scoped>
   .container{
+    background-image: url('../assets/background.png');
     background-color: #ff4d6d;
     height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,10 +34,12 @@ function get_started(){
 
   #title{
     font-family: 'Lobster', sans-serif;
+    color: #e05780;
     font-size: 500%;
   }
 
   #get_started{
+    font-family: 'Lobster', sans-serif;
     width: 50vw;
     height: 10%;
     font-size: xx-large;

@@ -1,33 +1,13 @@
 <script setup>
 import { reactive, ref } from 'vue'
+import { useItemStore } from '../store/listStore.js'
 
-let shoppingList = reactive([
-    {
-        item: "bananas"
-    },
-    {
-        item: "Bleach"
-    }
-])
+
+const itemStore = useItemStore()
+
+console.log(itemStore.getFinalListItems)
 
 let groceryItem = ref('')
-let editedItem = ref('')
-
-function addItem() {
-    if (groceryItem.value === "") {
-        alert("Please Enter an Item")
-    } else {
-        shoppingList.push(
-            {
-                item: groceryItem.value
-            }
-        )
-        console.log(shoppingList)
-    }
-
-    const shoppingListJson = JSON.stringify(shoppingList)
-    localStorage.setItem('array', shoppingListJson)
-}
 
 
 function deleteItem(item) {
@@ -37,25 +17,6 @@ function deleteItem(item) {
         }
     }
 }
-
-function editItem(item) {
-    for (let i = 0; i < shoppingList.length; i++) {
-        if (shoppingList[i] === item) {
-            shoppingList[i] = {
-                item: groceryItem.value
-            }
-            editedItem = item
-        }
-        console.log(`edited item is ${editedItem}`)
-    }
-}
-
-
-
-const str = localStorage.getItem('array')
-const parsedArray = JSON.parse(str)
-
-console.log(parsedArray)
 
 </script>
 
@@ -73,19 +34,21 @@ console.log(parsedArray)
                 <tr>
                     <th scope="col">Quantity</th>
                     <th scope="col">Item</th>
-                    <th scope="col">Edit</th>
+                    <th scope="col"> Price</th>
                     <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in shoppingList">
+                <tr v-for="item in itemStore.getFinalListItems">
                     <th id="quantity_container"><input type="number" id="quantity"></th>
-                    <td> {{ item.item }}</td>
-                    <td>
-                        <div @click="editItem(item)">
-                            <span class="fa fa-pen"></span>
-                        </div>
+                    <td> 
+                        {{ item.description }}
+                        <span class="coupon_icon" v-if="item.coupon"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-through-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.854 15.854A.5.5 0 0 1 2 15.5V14H.5a.5.5 0 0 1-.354-.854l1.5-1.5A.5.5 0 0 1 2 11.5h1.793l3.103-3.104a.5.5 0 1 1 .708.708L4.5 12.207V14a.5.5 0 0 1-.146.354zM16 3.5a.5.5 0 0 1-.854.354L14 2.707l-1.006 1.006c.236.248.44.531.6.845.562 1.096.585 2.517-.213 4.092-.793 1.563-2.395 3.288-5.105 5.08L8 13.912l-.276-.182A24 24 0 0 1 5.8 12.323L8.31 9.81a1.5 1.5 0 0 0-2.122-2.122L3.657 10.22a9 9 0 0 1-1.039-1.57c-.798-1.576-.775-2.997-.213-4.093C3.426 2.565 6.18 1.809 8 3.233c1.25-.98 2.944-.928 4.212-.152L13.292 2 12.147.854A.5.5 0 0 1 12.5 0h3a.5.5 0 0 1 .5.5z"/>
+                        </svg> </span>
                     </td>
+                    <td v-if="item.price.promo > 0"> ${{ item.price.promo }}</td>
+                    <td v-else>${{ item.price.regular }}</td>
                     <td>
                         <div @click="deleteItem(item)">
                             <span class="fa fa-trash"></span>
@@ -94,6 +57,10 @@ console.log(parsedArray)
                 </tr>
             </tbody>
         </table>
+        <div class="total_container">
+            <h3 class="total">Total</h3>
+            <h5>$</h5>
+        </div>
     </div>
 </template>
 
@@ -102,7 +69,7 @@ console.log(parsedArray)
 .container {
     width: 100vw;
     background-color: #fadde1;
-    height: 100vh;
+    height: 100%;
 }
 
 
@@ -112,18 +79,17 @@ console.log(parsedArray)
     padding: 2rem;
 }
 
-#quantity_container {
-    width: 1rem;
-    border: dis;
-}
 
 #quantity {
-    width: 1.5rem;
-    border: hidden
+    width: 3rem;
+    border: hidden;
+    background-color: #fadde1;
 }
 
 th {
     text-align: center;
+    font-size: 200%;
+    font-family: 'Lobster', sans-serif;
 }
 
 tr {
@@ -132,5 +98,22 @@ tr {
 
 td {
     text-align: center;
+    font-size: 150%;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.coupon_icon{
+    color: #ff758f;
+}
+
+.total_container{
+    background-color: #ffc2d1;
+    text-align: center;
+    margin-bottom: 10rem;
+}
+
+.total{
+    
 }
 </style>

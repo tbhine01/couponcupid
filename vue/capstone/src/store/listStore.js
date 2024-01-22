@@ -8,9 +8,9 @@ export const useItemStore = defineStore('items', () => {
         selectedItems: []
     })
 
-    function addGroceryItems(items) {
-        state.groceryItems.push(...items)
-    }
+    // function addGroceryItems(items) {
+    //     state.groceryItems.push(...items)
+    // }
 
     function addKrogerItems(items) {
         console.log(items)
@@ -30,6 +30,10 @@ export const useItemStore = defineStore('items', () => {
 
     const getStoredKrogerItems = computed(() => {
         return state.krogerItems
+    })
+
+    const getFinalListItems = computed (() => {
+        return state.selectedItems
     })
 
     const getKrogerHighest = computed(() => {
@@ -64,38 +68,7 @@ export const useItemStore = defineStore('items', () => {
         return min
     })
 
-    return { state, addGroceryItems, addKrogerItems, addFinalSelectedItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems}
+    return { state, addKrogerItems, addFinalSelectedItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems, getFinalListItems}
 }, {persist: true})
 // export { useItemStore }
 
-
-
-
-//   {
-
-//     category: "milk",
-//     items: [
-//     {
-//         "productId": "0001111042908",
-//         "upc": "0001111042908",
-//         "price": {
-//             "regular": 6.29,
-//             "promo": 0
-//         },
-//         "brand": "Simple Truth Organic",
-//         "description": "Simple Truth Organic® Whole Milk",
-//         "image": "some.image.url"
-//     },
-//     {
-//         "productId": "0001111042908",
-//         "upc": "0001111042908",
-//         "price": {
-//             "regular": 6.29,
-//             "promo": 0
-//         },
-//         "brand": "Simple Truth Organic",
-//         "description": "Simple Truth Organic® Whole Milk",
-//         "image": "some.image.url"
-//         }
-//     ]
-// },
