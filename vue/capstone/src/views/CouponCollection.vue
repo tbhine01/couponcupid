@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
 
 const itemStore = useItemStore()
-console.log(itemStore.getFinalListItems[0].coupon.title)
+console.log(itemStore.getFinalListItems[0].coupon)
 </script>
 
 
@@ -16,7 +16,11 @@ console.log(itemStore.getFinalListItems[0].coupon.title)
 <div class="container">
     <h1>Your Coupon Collection</h1>
     <div v-for="item in itemStore.getFinalListItems">
+        <div class="coupon">
         <h6 v-if="item.coupon != undefined"> {{ item.coupon.title }}</h6>
+        <img class="barcode" src='../assets/barcode.png'>
+    </div>
+        
     </div>
 </div>
 
@@ -37,5 +41,20 @@ console.log(itemStore.getFinalListItems[0].coupon.title)
 h1{
     font-family: 'Lobster', sans-serif;
     margin-top: 1rem;
+}
+
+.coupon{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff0f3;
+    padding: 1rem;
+    border-style: dashed;
+}
+
+.barcode{
+    height: 5rem;
+    width: 25rem;
 }
 </style>

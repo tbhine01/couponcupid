@@ -50,8 +50,8 @@ function finalList(){
 <style scoped>
 .container {
     width: 100vw;
-    height: 100vh;
-    background-color: #fadde1;
+    height: 100%;
+    /* background-color: #fadde1; */
 }
 
 .item_box{
@@ -84,6 +84,7 @@ function finalList(){
     margin-bottom: 1rem;
     padding: 1rem;
     border-radius: 10px;
+    overflow: auto;
 }
 .products:hover{
     background-color: #ff8fa3;
@@ -114,6 +115,7 @@ function finalList(){
 
 .coupon_icon{
     color: #ff758f;
+    margin-bottom: 100px;
 }
 
 .coupon_icon:hover .coupon_description{

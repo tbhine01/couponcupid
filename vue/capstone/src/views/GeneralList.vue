@@ -51,6 +51,7 @@ function addItem() {
         itemStore.state.groceryItems.push(groceryItem.value)
         console.log(itemStore.state.groceryItems)
     }
+   return groceryItem.value = ''
 }
 
 
@@ -67,11 +68,7 @@ function editItem(row) {
     let list = itemStore.state.groceryItems
     for (let i = 0; i < list.length; i++) {
         if (list[i] === row) {
-            //shoppingList[i] = {
-            //    item: groceryItem.value
-            //}
             groceryItem.value = list[i]
-            //editedItem = row.item
             editedIndex = i
             console.log(list)
         }
@@ -138,7 +135,7 @@ function editItem(row) {
 
                 <div class="store_container">
                     <h4 class="store_name">Publix</h4>
-                    <h4>${{ (itemStore.getKrogerLowest) + (itemStore.getKrogerLowest) * 0.15 }} - ${{ (itemStore.getKrogerHighest) + (itemStore.getKrogerHighest) * 0.15}}</h4>
+                    <h4>${{ Math.round(((itemStore.getKrogerLowest) + (itemStore.getKrogerLowest) * 0.15) * 100)/100 }} - ${{ Math.round(((itemStore.getKrogerHighest) + (itemStore.getKrogerHighest) * 0.15) * 100)/ 100}}</h4>
                 </div>
             </div>
         </div>

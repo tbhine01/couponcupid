@@ -49,7 +49,7 @@ export const useItemStore = defineStore('items', () => {
             })
         max += highestPrice.price.regular
     })
-        return max
+        return Math.round(max * 100) /100
     })
 
     const getKrogerLowest = computed(() => {
@@ -65,7 +65,7 @@ export const useItemStore = defineStore('items', () => {
             })
         min += lowestPrice.price.regular
     })
-        return min
+        return Math.round(min * 100) /100
     })
 
     return { state, addKrogerItems, addFinalSelectedItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems, getFinalListItems}
