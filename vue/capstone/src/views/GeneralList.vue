@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
 import router from '@/router';
+import Header from '@/components/Header.vue';
 
 
 const itemStore = useItemStore()
@@ -84,6 +85,7 @@ function editItem(row) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
+<Header></Header>
     <div class="container">
         <h1 id="title">Search</h1>
 
@@ -152,18 +154,24 @@ function editItem(row) {
 #title {
     text-align: center;
     font-family: 'Lobster', sans-serif;
+    padding: 2rem;
+    /* font-size: 3rem;1.5 */
 }
 
 #search_container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 #search {
     border-radius: 1rem;
     text-align: center;
     width: 30rem;
+    height: 2.5rem;
     font-family: 'Lobster', sans-serif;
+    font-size: xx-large;
 }
 
 #add {
@@ -172,10 +180,14 @@ function editItem(row) {
     background-color: #ffc2d1;
     color: #ff0a54;
     border: none;
-    width: 4rem;
+    width: 10rem;
+    height: 2rem;
     font-weight: bolder;
     font-family: 'Lobster', sans-serif;
+    font-size: 150%;
+    text-align: center;
 }
+
 
 th{
     text-align: center;
@@ -212,6 +224,7 @@ td{
     background-color: #ffc2d1;
     border: none;
     border-radius: 15px;
+    border-style: outset;
     font-size: 2rem;
     color: #ff0a54;
     font-weight: bold;
@@ -231,8 +244,10 @@ td{
     text-align: center;
 }
 .store_container:hover{
-    border: solid 10px white;
+    border: solid 5px white;
     padding: 1rem;
+    border-radius: 10px;
+    border-style: outset;
 }
 
 .store_name{

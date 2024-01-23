@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
 import router from '@/router';
+import Header from '@/components/Header.vue';
 
 const itemStore = useItemStore()
 
@@ -42,12 +43,12 @@ total()
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
+    <Header></Header>
     <div class="container">
         <div class="header_container">
             <h1 id="title">Shopping List</h1>
             <button class="coupon_button" @click="couponCollection">Coupon Collection</button>
         </div>
-       
         <table class="table">
             <thead>
                 <tr>
@@ -77,8 +78,10 @@ total()
             </tbody>
         </table>
         <div class="total_container">
-            <h3 class="total">Total</h3>
-            <h5>$ {{ total() }}</h5>
+            <div id="total_box">
+            <h4 class="total">Total</h4>
+            <h5 class="amount">$ {{ total() }}</h5>
+            </div>
         </div>
     </div>
 </template>
@@ -88,25 +91,29 @@ total()
 .container {
     width: 100vw;
     background-color: #fadde1;
-    height: 100%;
+    height: 100vh;
+    position: relative;
 }
 
 .header_container{
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 4rem;
 }
 
 .coupon_button{
-    margin-top: 2.5rem;
     border-radius: 2rem;
     background-color: #ffc2d1;
     color: #ff0a54;
     border: none;
-    width: 10rem;
-    height: 3rem;
+    width: 13rem;
+    height: 4rem;
     font-weight: bolder;
+    font-size: 125%;
     font-family: 'Lobster', sans-serif;
+    position: absolute;
+    right: 1rem;
 }
 
 #title {
@@ -118,8 +125,9 @@ total()
 
 #quantity {
     width: 3rem;
-    border: hidden;
+    border: 1px solid white;
     background-color: #fadde1;
+    text-align: center;
 }
 
 th {
@@ -141,17 +149,34 @@ td {
 
 .coupon_icon{
     color: #ff758f;
+    margin-left: 1rem;
 }
 
 .total_container{
-    background-color: #ffc2d1;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     margin-bottom: 10rem;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+#total_box{
+    background-color: #ffc2d1;
+    width: 20rem;
+    padding: .5rem;
+    border-radius: 25px;
 }
 
 .total{
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Lobster', sans-serif;
     font-weight: bold;
+    font-size: 2rem;
+}
+
+.amount{
+    font-size: 180%;
 }
 
 </style>

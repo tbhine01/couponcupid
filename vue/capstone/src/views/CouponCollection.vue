@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
+import Header from '@/components/Header.vue';
 
 const itemStore = useItemStore()
 console.log(itemStore.getFinalListItems[0].coupon)
@@ -12,7 +13,7 @@ console.log(itemStore.getFinalListItems[0].coupon)
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
-
+<Header></Header>
 <div class="container">
     <h1>Your Coupon Collection</h1>
     <div v-for="item in itemStore.getFinalListItems">
@@ -35,7 +36,6 @@ console.log(itemStore.getFinalListItems[0].coupon)
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5rem;
 }
 
 h1{
@@ -50,7 +50,8 @@ h1{
     align-items: center;
     background-color: #fff0f3;
     padding: 1rem;
-    border-style: dashed;
+    margin: 3rem;
+    border: 3px dashed black;
 }
 
 .barcode{

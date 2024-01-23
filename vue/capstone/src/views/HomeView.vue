@@ -14,8 +14,8 @@ function get_started(){
   <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
   <div class="container">
+    <h1 id="title">CouponCupid</h1>
     <img id="logo" src='../assets/transparentlogo.png' alt="CouponCupid Logo">
-      <h1 id="title">CouponCupid</h1>
     <button id="get_started" @click="get_started">Get Started!</button>
   </div>
 </template>
@@ -47,10 +47,11 @@ function get_started(){
     font-family: 'Lobster', sans-serif;
     width: 50vw;
     height: 10%;
-    font-size: xx-large;
+    font-size: 200%;
     border-radius: 30px;
     background-color: #ffb3c1;
     color: white;
     border: none;
+    border-style: outset;
   }
 </style>
