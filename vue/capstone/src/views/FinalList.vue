@@ -32,7 +32,7 @@ function total(){
         }
    }
    console.log(total)
-   return total
+   return Math.round(total * 100) / 100
 }
 total()
 </script>
@@ -60,7 +60,7 @@ total()
             </thead>
             <tbody>
                 <tr v-for="item in itemStore.getFinalListItems">
-                    <th id="quantity_container"><input type="number" id="quantity"></th>
+                    <th id="quantity_container"><input type="number" id="quantity" min="0"></th>
                     <td> 
                         {{ item.description }}
                         <span class="coupon_icon" v-if="item.coupon"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-through-heart-fill" viewBox="0 0 16 16">
@@ -114,6 +114,10 @@ total()
     font-family: 'Lobster', sans-serif;
     position: absolute;
     right: 1rem;
+}
+
+.coupon_button:hover{
+    background-color: #ff8fa3;
 }
 
 #title {
@@ -177,6 +181,7 @@ td {
 
 .amount{
     font-size: 180%;
+    font-weight: bold;
 }
 
 </style>

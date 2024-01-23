@@ -16,6 +16,8 @@ let groceryItem = ref('')
 let editedIndex = null
 
 function submitList() {
+    let submitted = document.getElementById("submit")
+    submitted.classList.add("test")
 
     fetch("http://localhost:3000/search-store",
         {
@@ -188,6 +190,10 @@ function editItem(row) {
     text-align: center;
 }
 
+#add:hover{
+    background-color: #ff8fa3;
+}
+
 
 th{
     text-align: center;
@@ -229,6 +235,10 @@ td{
     color: #ff0a54;
     font-weight: bold;
     font-family: 'Lobster', sans-serif;
+}
+
+.test{
+    background-color: #ff8fa3;
 }
 
 .prices {

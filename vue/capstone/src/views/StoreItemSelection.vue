@@ -159,4 +159,8 @@ function finalList(){
     font-weight: bold;
     font-family: 'Lobster', sans-serif;
 }
+
+.submit:hover{
+    background-color: #ff8fa3;
+}
 </style>
