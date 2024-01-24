@@ -5,6 +5,7 @@ import FinalList from '../views/FinalList.vue'
 import StoreLocations from '../views/StoreLocations.vue'
 import CouponCollection from '../views/CouponCollection.vue'
 import StoreItems from '../views/StoreItemSelection.vue'
+import Register from '../views/Register.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/store-items',
       name: 'store-items',
       component: StoreItems
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
     }
 
   

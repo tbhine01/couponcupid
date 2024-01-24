@@ -1,6 +1,15 @@
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const couponJson = require('./couponJson.js')
+const Pool = require('pg').Pool
+
+const pool = new Pool({
+    user: 'thinesshelley',
+    host: 'localhost',
+    database: 'couponcupid', 
+    password: 'password',
+    port: 5432
+})
 
 
 async function productSearch(item) {
@@ -73,9 +82,52 @@ fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter
   .catch(error => console.log('error', error));
 }
 
+// Postgres Table
+async function getUser(req, res) {
+  const id = req.params.id
+
+  await pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+      if(error){
+          throw error 
+      }
+      res.status(200).json(results.rows)
+  })
+}
+
+async function createUser(req, res) {
+  const email = req.body.email
+  const password = req.body.password
+  const name = req.body.name
+
+  await pool.query('INSERT INTO users (email, name, password) VALUES ($1, $2, $3) RETURNING *', [email, name, password], (error, results) => {
+      if (error){
+          throw error 
+      }
+
+      res.status(201).send(results.rows) //201 means it successfully posted
+  })
+}
+
+async function login (req, res) {
+  const email = req.body.email
+  const password = req.body.password
+
+  await pool.query('SELECT * FROM users WHERE email = $1 AND password = $2', [email, password], (error, results) => {
+      if(error){
+          throw error 
+      }
+
+      // const token = tokenManger.generateAccessToken(results.rows[0].id) //generate our access token with the ID we get back from the database
+      res.status(200).send(results.rows) //we are sendong back the token
+  })
+}
+
 
 module.exports = {
   productSearch,
   getProducts, 
-  getLocations
+  getLocations,
+  getUser,
+  createUser,
+  login
 }
