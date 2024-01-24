@@ -18,8 +18,10 @@ console.log(itemStore.getFinalListItems[0].coupon)
     <h1>Your Coupon Collection</h1>
     <div v-for="item in itemStore.getFinalListItems">
         <div class="coupon">
-        <h6 v-if="item.coupon != undefined"> {{ item.coupon.title }}</h6>
-        <img class="barcode" src='../assets/barcode.png'>
+        <h6 v-if="item.coupon != undefined"> {{ item.coupon.title }}
+        <div><img class="barcode" src='../assets/barcode.png'></div>
+        </h6>
+        
     </div>
         
     </div>

@@ -14,13 +14,18 @@ export const useItemStore = defineStore('items', () => {
 
     function addKrogerItems(items) {
         console.log(items)
-        state.krogerItems.push(...items)
+        state.krogerItems = items
         console.log("state krogeritems", state.krogerItems)
     }
 
     function addFinalSelectedItems(items){
         console.log("this worked")
         state.selectedItems.push(items)   
+        console.log(state.selectedItems)
+    }
+
+    function removeFinalSelectedItem(item){
+        state.selectedItems = state.selectedItems.filter(i => i.productid !== item.productid)  
         console.log(state.selectedItems)
     }
 
@@ -68,7 +73,7 @@ export const useItemStore = defineStore('items', () => {
         return Math.round(min * 100) /100
     })
 
-    return { state, addKrogerItems, addFinalSelectedItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems, getFinalListItems}
+    return { state, addKrogerItems, addFinalSelectedItems, getStored, getKrogerHighest, getKrogerLowest, getStoredKrogerItems, getFinalListItems, removeFinalSelectedItem}
 }, {persist: true})
 // export { useItemStore }
 

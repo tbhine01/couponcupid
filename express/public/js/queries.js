@@ -1,7 +1,12 @@
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+const tokenManager = require("./token_manager.js")
+
+
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const couponJson = require('./couponJson.js')
 const Pool = require('pg').Pool
+let accessToken = ""
+let refreshToken = ""
 
 const pool = new Pool({
     user: 'thinesshelley',
@@ -13,9 +18,10 @@ const pool = new Pool({
 
 
 async function productSearch(item) {
-  const location = "02400752"
 
-  let token = { "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCIsImV4cCI6MTcwNTk2MDk0MCwiaWF0IjoxNzA1OTU5MTM1LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6ImQxZDFhOTA3LWMxMWQtNTlkYi05ODJkLTRkNzViMTZiNTQyMSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzA1OTU5MTQwODk3ODczNTIyLCJhenAiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCJ9.aO7aSvSiA2-BXHCKd_XxQ6gm8_MPvQ0GaHoZBSQZFJz7ftAFETqnTl_QCTZAfBhcefpZy_ZlcfHAOB085K6oVAV5YeFdcPZ_UsreeqYX2zFz07InO144t-40Zirxeti473ytRaZNpBcJy016CwrAvBXjFOBrdEIgiTLuLcXLZicWT64SwJPI9BkENbs3kl1S3sw-GlfKLLuK320TwnbLmbso9Vj5tfBKCdrlMXUxPS_9ONsAYbGZY-D8OvEkAKXvcTJ9XA0AIVzGwTVntk3OzaNkb3aYcamnyun76LVOS4wf8jZhNnXwiIqwaPNIcxb6kvokDrU-cENP_ZsPy-nGNA" }
+  const location = "02400752"
+  console.log(accessToken)
+  let token = { "Authorization": `Bearer ${accessToken}` }
 
 
   var requestOptions = {
@@ -24,10 +30,18 @@ async function productSearch(item) {
     redirect: 'follow'
   };
 
-  const res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+  let res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+
+  if(res.status === 401) {
+    const refreshResult = await getAccessToken()
+    accessToken = refreshResult.access_token
+    // refreshToken = refreshResult.refresh_token
+    await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+  }
+
   const data = await res.json()
 
-
+  console.log(data)
 
   return data.data.map(item => {
     let imageArray = item.images.find(i => i.perspective === "front")
@@ -53,6 +67,14 @@ async function productSearch(item) {
 async function getProducts(groceryItems) {
   // groceryItems is the list of generic items
   console.log(groceryItems)
+  if(!accessToken) {
+    // make the call to get a new access token using refresh token
+    const refreshResult = await getAccessToken()
+    accessToken = refreshResult.access_token
+    // refreshToken = refreshResult.refresh_token
+    console.log(accessToken)
+  }
+
   const result = await groceryItems.map(async (item) => {
     const krogerItems = await productSearch(item);
     let formattedItem = {
@@ -120,6 +142,48 @@ async function login (req, res) {
       // const token = tokenManger.generateAccessToken(results.rows[0].id) //generate our access token with the ID we get back from the database
       res.status(200).send(results.rows) //we are sendong back the token
   })
+}
+
+// async function refreshHandler(req, res) {
+//   if (!req.body.refreshToken) {
+//       res.sendStatus(400)
+//       return
+//   }
+
+//   try {
+//       const token = await tokenManager.getByRefresh(req.body.refreshToken)
+//       const result = {
+//           refreshToken: token.refresh_token,
+//           access_token: token.access_token
+//       }
+//   }
+
+//   catch (error) {
+//       console.log(error)
+//   }
+// }
+
+async function refreshHandler() {
+  try {
+      const token = await tokenManager.getByRefresh(refreshToken)
+      const result = {
+          refreshToken: token.refresh_token,
+          access_token: token.access_token
+      }
+
+      return result
+  }
+
+  catch (error) {
+      console.error(error)
+      return {}
+  }
+}
+
+async function getAccessToken() {
+  const body =
+    "grant_type=client_credentials"
+  return await tokenManager.get(body);
 }
 
 

@@ -22,7 +22,7 @@ function register(){
 
   .then(response => {
     console.log(response)
-    if(email.value || name.value || password.value === null){
+    if(email.value ===""|| name.value === "" || password.value === ""){
       alert("Please fill out all fields")
     } else{
 

@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.post('/search-store', async (req, res) => {
     // console.log("stuff")
+    
     let items = req.body.groceryItems
     let krogerInfo = await queries.getProducts(items)
     

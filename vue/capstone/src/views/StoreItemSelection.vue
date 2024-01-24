@@ -8,9 +8,15 @@ import Header from '@/components/Header.vue';
 let itemStore = useItemStore()
 
 function chooseProduct(selected){
-    itemStore.addFinalSelectedItems(selected)
     let div = document.getElementById(selected.productId)
-    div.classList.add("selected")
+
+    if(itemStore.getFinalListItems.includes(selected)) {
+        itemStore.removeFinalSelectedItem(selected)
+        div.classList.remove("selected")
+    } else {
+        itemStore.addFinalSelectedItems(selected)
+        div.classList.add("selected")
+    }
 }
 
 function finalList(){

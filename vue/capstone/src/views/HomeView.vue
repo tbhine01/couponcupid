@@ -47,7 +47,7 @@ function login(){
     <h1 id="title">CouponCupid</h1>
     <img id="logo" src='../assets/transparentlogo.png' alt="CouponCupid Logo">
     <div class="login_box">
-        <input type="text" id="username" name="username" v-model="email" placeholder="Email">
+        <input type="text" id="email" name="email" v-model="email" placeholder="Email">
         <input type="password" id="password" name="password" v-model="password" placeholder="Password">
         <button @click="login" id="login">Log In</button>
       </div>
@@ -88,7 +88,7 @@ function login(){
     align-items:center;
   }
 
-  #username{
+  #email{
     font-family: 'Lobster', sans-serif;
     width: 20rem;
     height: 2.5rem;
