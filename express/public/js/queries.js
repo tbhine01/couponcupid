@@ -181,8 +181,7 @@ async function refreshHandler() {
 }
 
 async function getAccessToken() {
-  const body =
-    "grant_type=client_credentials"
+  const body = "grant_type=client_credentials&scope=product.compact";
   return await tokenManager.get(body);
 }
 
@@ -193,5 +192,6 @@ module.exports = {
   getLocations,
   getUser,
   createUser,
-  login
+  login,
+  getAccessToken
 }
