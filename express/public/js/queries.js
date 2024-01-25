@@ -140,7 +140,7 @@ async function login (req, res) {
       }
 
       // const token = tokenManger.generateAccessToken(results.rows[0].id) //generate our access token with the ID we get back from the database
-      res.status(200).send(results.rows) //we are sendong back the token
+      res.status(200).send(results.rows[0]) //we are sendong back the token
   })
 }
 

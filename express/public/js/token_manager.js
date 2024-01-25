@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Parameters imported from .env environment variables
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -19,7 +21,9 @@ async function getByRefresh(refreshToken) {
   return await get(body);
 }
 
-async function get(body) {
+async function get(body) {;
+
+
   // ClientId and ClientSecret (stored in .env file)
   const encoded = Buffer.from(`${clientId}:${clientSecret}`, `ascii`);
   // ClientId and clientSecret must be encoded

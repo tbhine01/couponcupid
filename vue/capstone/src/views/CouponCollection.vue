@@ -4,7 +4,7 @@ import { useItemStore } from '../store/listStore.js'
 import Header from '@/components/Header.vue';
 
 const itemStore = useItemStore()
-console.log(itemStore.getFinalListItems[0].coupon)
+console.log(itemStore.getFinalListItems)
 </script>
 
 
@@ -17,8 +17,8 @@ console.log(itemStore.getFinalListItems[0].coupon)
 <div class="container">
     <h1>Your Coupon Collection</h1>
     <div v-for="item in itemStore.getFinalListItems">
-        <div class="coupon">
-        <h6 v-if="item.coupon != undefined"> {{ item.coupon.title }}
+        <div v-if="item.coupon != undefined" class="coupon">
+        <h6> {{ item.coupon.title }}
         <div><img class="barcode" src='../assets/barcode.png'></div>
         </h6>
         
