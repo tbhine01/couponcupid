@@ -14,7 +14,8 @@ function register(){
     "name": name.value,
   }
 
-  fetch("http://localhost:3000/user", {
+  // http://localhost:3000/user
+  fetch("https://couponcupid.onrender.com/user", {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(reqBody),
     method: "POST"
