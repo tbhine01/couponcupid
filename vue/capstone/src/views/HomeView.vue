@@ -2,12 +2,12 @@
 import router from '@/router';
 import { ref } from "vue"
 
-let email = ref('')
-let password = ref('')
+// let email = ref('')
+// let password = ref('')
 
-// function get_started(){
-//   router.push('/general')
-// }
+function get_started(){
+  router.push('/general')
+}
 
 function login(){
   const reqBody = {
@@ -47,15 +47,15 @@ function login(){
   <div class="container">
     <h1 id="title">CouponCupid</h1>
     <img id="logo" src='../assets/transparentlogo.png' alt="CouponCupid Logo">
-    <div class="login_box">
+    <!-- <div class="login_box">
         <input type="text" id="email" name="email" v-model="email" placeholder="Email">
         <input type="password" id="password" name="password" v-model="password" placeholder="Password">
         <button @click="login" id="login">Log In</button>
       </div>
       <div id="register_box">
         <p>Don't have an account? <router-link to = "/register">Register Here</router-link> </p>
-      </div>
-    <!-- <button id="get_started" @click="get_started">Get Started!</button> -->
+      </div> -->
+    <button id="get_started" @click="get_started">Get Started!</button>
   </div>
 </template>
 
