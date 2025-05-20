@@ -32,7 +32,7 @@ async function get(body) {;
   // Build token URL
   // Base URL (https://api.kroger.com)
   // Version/Endpoint (/v1/token)
-  const tokenUrl = "https://api.kroger.com/v1/connect/oauth2/token";
+  const tokenUrl = "https://api-ce.kroger.com/v1/connect/oauth2/token";
 
   // Token request
   let tokenResponse = await fetch(tokenUrl, {

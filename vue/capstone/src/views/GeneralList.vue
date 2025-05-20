@@ -19,8 +19,8 @@ function submitList() {
     let submitted = document.getElementById("submit")
     submitted.classList.add("test")
 
-    fetch("https://couponcupid.onrender.com/search-store",
-    // http://localhost:3000/search-store
+    fetch("http://localhost:3000/search-store",
+    // https://couponcupid.onrender.com/search-store
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },

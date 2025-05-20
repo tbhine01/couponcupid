@@ -5,7 +5,7 @@ const tokenManager = require("./token_manager.js")
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const couponJson = require('./couponJson.js')
 const Pool = require('pg').Pool
-let accessToken = ""
+let accessToken = "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLWNlLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoidnl6bG52Y3dSUUZyRzZkWDBzU1pEQT09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCIsImV4cCI6MTc0NzcwNjYyMywiaWF0IjoxNzQ3NzA0ODE4LCJpc3MiOiJhcGktY2Uua3JvZ2VyLmNvbSIsInN1YiI6IjFiYTFiMGUyLTlkODEtNTUwOS04MmY4LTQ1MzA3OWMwMzYwNSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzQ3NzA0ODIzMTEzMDA2NTY0LCJhenAiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCJ9.j4tt94SusWA1OADAHZr_-w-POajTapMXIhsAMo5fXqArvFqYYYyUUEGJlTmtJt2rN85-IbH9hUusZESTmrvDESlKJospKENCnVkwRTPNZ6m9x_zS44eagTXSbpTYC4e3ApnsLyt5lREg0mHuxVvrezo4NSjx1ZjNebiGF-4uGD2OLZ78HoAxWc5z_hWWMzeaJrLrHvfnYYRS1OJUFnjQQhLFOgnpN9ERNnZ0_XWD51KHa8QphpGWPKX91q5Y2cUmGsz9RCm9X0CnqyNUEh6eJFOw7yh4LzeVYqRMzlre5FAXOM4M8zKPyTe1f86fuVc8vKR2IkYGcl6inUxKYq1wwQ"
 let refreshToken = ""
 
 const pool = new Pool({
@@ -30,13 +30,13 @@ async function productSearch(item) {
     redirect: 'follow'
   };
 
-  let res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+  let res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
 
   if(res.status === 401) {
     const refreshResult = await getAccessToken()
     accessToken = refreshResult.access_token
     // refreshToken = refreshResult.refresh_token
-    await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+    await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
   }
 
   const data = await res.json()
@@ -98,7 +98,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
+fetch(`https://api-ce.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
