@@ -25,12 +25,8 @@ function total(){
    let total = 0
    console.log(finalList)
    for(let i = 0; i < finalList.length; i++){
-        if(finalList[i].price.promo != 0){
-            total += finalList[i].price.promo
-        }else{
-            total += finalList[i].price.regular
-        }
-   }
+        total += finalList[i].price.regular
+    }
    console.log(total)
    return Math.round(total * 100) / 100
 }

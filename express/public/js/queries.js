@@ -5,7 +5,7 @@ const tokenManager = require("./token_manager.js")
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const couponJson = require('./couponJson.js')
 const Pool = require('pg').Pool
-let accessToken = "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLWNlLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoidnl6bG52Y3dSUUZyRzZkWDBzU1pEQT09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCIsImV4cCI6MTc0NzcwNjYyMywiaWF0IjoxNzQ3NzA0ODE4LCJpc3MiOiJhcGktY2Uua3JvZ2VyLmNvbSIsInN1YiI6IjFiYTFiMGUyLTlkODEtNTUwOS04MmY4LTQ1MzA3OWMwMzYwNSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzQ3NzA0ODIzMTEzMDA2NTY0LCJhenAiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCJ9.j4tt94SusWA1OADAHZr_-w-POajTapMXIhsAMo5fXqArvFqYYYyUUEGJlTmtJt2rN85-IbH9hUusZESTmrvDESlKJospKENCnVkwRTPNZ6m9x_zS44eagTXSbpTYC4e3ApnsLyt5lREg0mHuxVvrezo4NSjx1ZjNebiGF-4uGD2OLZ78HoAxWc5z_hWWMzeaJrLrHvfnYYRS1OJUFnjQQhLFOgnpN9ERNnZ0_XWD51KHa8QphpGWPKX91q5Y2cUmGsz9RCm9X0CnqyNUEh6eJFOw7yh4LzeVYqRMzlre5FAXOM4M8zKPyTe1f86fuVc8vKR2IkYGcl6inUxKYq1wwQ"
+let accessToken = "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLWNlLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoidnl6bG52Y3dSUUZyRzZkWDBzU1pEQT09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCIsImV4cCI6MTc0Nzg2NjMzNywiaWF0IjoxNzQ3ODY0NTMyLCJpc3MiOiJhcGktY2Uua3JvZ2VyLmNvbSIsInN1YiI6IjFiYTFiMGUyLTlkODEtNTUwOS04MmY4LTQ1MzA3OWMwMzYwNSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzQ3ODY0NTM3MDA1NDYzNTgwLCJhenAiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCJ9.WyFoMsNqWr9v8NVJR1WrqWg1-1ztZrLPKkEhW1lDGugHi3mFxfgWi6tBQ_xmaYe1sYpO8XXUDChlF-hBPvG-WGsBrMLkkWol8nbzwPlxA4N_9dyjTIxCU-fCC-KVxmWYAY5ucy_vTCziA9iCTQ8hHLP-VbeppJ4MefBLwgckGJSajHlvzYixGx2WtefqBnQYBBZVfRck2rrAn8huSBkQcVQUP2kj_JR5Nd8nm--RmzTV_rDzLDr1Wax0eWP3CfdJwQzLz3oqc7t8fBzYKu83hulFkZwwweCVd-C4sEfMvAkpBWES7aovUAx9zrermzVYXPzjNX_9XWS3PUZ6a-pb8w"
 let refreshToken = ""
 
 const pool = new Pool({
@@ -26,30 +26,35 @@ async function productSearch(item) {
 
   var requestOptions = {
     method: 'GET',
-    headers: token,
+    headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Accept": "application/json"
+    },
     redirect: 'follow'
   };
 
-  let res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+  let res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
 
   if(res.status === 401) {
     const refreshResult = await getAccessToken()
     accessToken = refreshResult.access_token
-    // refreshToken = refreshResult.refresh_token
-    await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.locationId=02400752&filter.start=1&filter.limit=10`, requestOptions)
+    // requestOptions.headers = { "Authorization": `Bearer ${accessToken}` }
+    requestOptions.headers = headers;
+    res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
   }
 
   const data = await res.json()
-
   console.log(data)
+
+  if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
+    return []
+  }
 
   return data.data.map(item => {
     let imageArray = item.images.find(i => i.perspective === "front")
     let image = imageArray.sizes.find(i => i.size === "small")
 
     const coupon = couponJson.coupons.filter(coupon => coupon.productId === item.productId)
-    console.log(coupon)
-
     let formattedItem = {
       "productId": item.productId,
       "upc": item.upc,
@@ -57,7 +62,7 @@ async function productSearch(item) {
       "brand": item.brand,
       "description": item.description,
       "image": image.url,
-      "coupon": coupon == [] ? null : coupon[0]
+      "coupon": coupon.length === 0 ? null : coupon[0]
     }
     return formattedItem
   })

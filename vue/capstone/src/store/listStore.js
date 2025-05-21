@@ -12,9 +12,23 @@ export const useItemStore = defineStore('items', () => {
     //     state.groceryItems.push(...items)
     // }
 
+    function assignRandomPricesToKrogerItems(items) {
+    return items.map(category => ({
+        ...category,
+        items: category.items.map(item => ({
+            ...item,
+            price: { regular: +(Math.random() * 24 + 1).toFixed(2) }
+        }))
+    }))
+}
+
     function addKrogerItems(items) {
-        console.log(items)
-        state.krogerItems = items
+        console.log("Kroger API returned products:", items)
+        const itemsWithPrices = assignRandomPricesToKrogerItems(items)
+        console.log("items with prices", assignRandomPricesToKrogerItems(items))
+        console.log("items with prices2", itemsWithPrices)
+        state.krogerItems = itemsWithPrices;
+        // state.krogerItems = items
         console.log("state krogeritems", state.krogerItems)
     }
 
@@ -51,7 +65,7 @@ export const useItemStore = defineStore('items', () => {
                 catch (error) {
                     console.log(error)
                 }
-            })
+            }, category.items[0])
         max += highestPrice.price.regular
     })
         return Math.round(max * 100) /100
@@ -67,7 +81,7 @@ export const useItemStore = defineStore('items', () => {
                 catch (error) {
                     console.log(error)
                 }
-            })
+            }, category.items[0])
         min += lowestPrice.price.regular
     })
         return Math.round(min * 100) /100
