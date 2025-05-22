@@ -6,7 +6,7 @@ const tokenManager = require("./token_manager.js")
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const couponJson = require('./couponJson.js')
 const Pool = require('pg').Pool
-let accessToken = ""
+let accessToken = "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLWNlLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoidnl6bG52Y3dSUUZyRzZkWDBzU1pEQT09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCIsImV4cCI6MTc0Nzg4ODQwMiwiaWF0IjoxNzQ3ODg2NTk3LCJpc3MiOiJhcGktY2Uua3JvZ2VyLmNvbSIsInN1YiI6IjFiYTFiMGUyLTlkODEtNTUwOS04MmY4LTQ1MzA3OWMwMzYwNSIsInNjb3BlIjoicHJvZHVjdC5jb21wYWN0IiwiYXV0aEF0IjoxNzQ3ODg2NjAyMTY2MDg4NDEyLCJhenAiOiJjb3Vwb25jdXBpZC1iYmM1eHNnbCJ9.nuBv10gJ3EwBwrhFZNuscy3pAyqIRsUeFoeAloO50oiiksYK4puXhzN4Jq8IeomT4DegVs8YoBMyxXFSt8cvFk-iVZFlDPoUmSaLlPKuiKEkcqIFLGcb3jCKlyQQoDf1ERY-AT0LwMmt2pXD-ftsUgEm4FX-FF1QOj8QgV-6aLSmTm1T0k29JFdEnwB4oIUKjOPdAU8s_5WATRlS8zlppcs7ZoFN4lKHYtYPiL7lretzerOcdryDqOuGwjZ4WlDxAy-eol4fTrN4kmoI3jKYeipArAecOAs71DLSyBo1-fQpiz8BYNNF-eKhG3T_GnLsOWKnjsekh_bqLeg61f1pHw"
 let refreshToken = process.env.KROGER_REFRESH_TOKEN;
 
 const pool = new Pool({
