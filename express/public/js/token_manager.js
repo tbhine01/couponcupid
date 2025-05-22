@@ -13,6 +13,9 @@ async function get(body) {
     const authorization = "Basic " + encoded.toString("base64");
     const tokenUrl = baseUrl;
 
+    console.log("clientId:", clientId);
+    console.log("clientSecret:", clientSecret ? "set" : "not set");
+
     const tokenResponse = await fetch(tokenUrl, {
         method: "POST",
         headers: {
@@ -31,7 +34,7 @@ async function get(body) {
 }
 
 async function getByAuth(code) {
-    const body = `grant_type=authorization_code&code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(redirectUrl)}`;
+    const body = `grant_type=authorization_code&code=${encodeURIComponent(code)}`;
     return await get(body);
 }
 
