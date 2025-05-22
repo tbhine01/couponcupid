@@ -11,7 +11,7 @@ const baseUrl = "https://api-ce.kroger.com/v1/connect/oauth2/token"
 async function get(body) {
     const encoded = buffer.Buffer.from(`${clientId}:${clientSecret}`, 'ascii');
     const authorization = "Basic " + encoded.toString("base64");
-    const tokenUrl = `${baseUrl}/v1/token`;
+    const tokenUrl = baseUrl;
 
     const tokenResponse = await fetch(tokenUrl, {
         method: "POST",
