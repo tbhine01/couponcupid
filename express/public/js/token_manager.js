@@ -6,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectUrl = process.env.REDIRECT_URL;
-const baseUrl = process.env.OAUTH2_BASE_URL; // usually https://api.kroger.com
+const baseUrl = "https://api-ce.kroger.com/v1/connect/oauth2/token"
 
 async function get(body) {
     const encoded = buffer.Buffer.from(`${clientId}:${clientSecret}`, 'ascii');
