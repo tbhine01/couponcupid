@@ -5,7 +5,7 @@ const queries = require('./public/js/queries.js')
 const bodyParser = require('body-parser')
 const cors = require("cors")
 
-app.use(express.static(path.join(__dirname, '/public')))
+app.use(express.static(path.join(__dirname, '../vue/capstone/dist')))
 app.use(bodyParser.json())
 let corsOptions = {
     origin : 'http://localhost:5173'
