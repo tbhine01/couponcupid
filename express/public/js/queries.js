@@ -6,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const couponJson = require('./couponJson.js')
 const Pool = require('pg').Pool
 let accessToken = ""
-let refreshToken = ""
+let refreshToken = process.env.KROGER_REFRESH_TOKEN;
 
 const pool = new Pool({
     user: 'thinesshelley',
@@ -36,10 +36,8 @@ async function productSearch(item) {
   let res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
 
   if(res.status === 401) {
-    const refreshResult = await getAccessToken()
-    accessToken = refreshResult.access_token
-    // requestOptions.headers = { "Authorization": `Bearer ${accessToken}` }
-    // requestOptions.headers = headers;
+    const token = await tokenManager.getByRefresh(refreshToken)
+    requestOptions.headers = { "Authorization": `Bearer ${token.access_token}` }
     res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
   }
 

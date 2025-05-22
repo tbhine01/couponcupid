@@ -67,6 +67,9 @@ app.post('/user', queries.createUser)
 // Login 
 app.post('/login', queries.login)
 
-app.listen(3000)
-console.log("Express App is running")
+// app.listen(3000)
+// console.log("Express App is running")
 
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Express App is running')
+});
