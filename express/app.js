@@ -1,4 +1,17 @@
-require('dotenv').config();
+const fs = require('fs');
+const path = require('path');
+
+// Try to load from /etc/secrets first (Render), then fallback to local .env
+if (fs.existsSync('/etc/secrets/.env')) {
+  require('dotenv').config({ path: '/etc/secrets/.env' });
+  console.log('Loaded environment from /etc/secrets/.env');
+} else if (fs.existsSync('.env')) {
+  require('dotenv').config();
+  console.log('Loaded environment from local .env');
+} else {
+  console.log('No .env file found, using system environment variables');
+}
+// require('dotenv').config();
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 console.log('ENV VARIABLES:', {
   CLIENT_ID: process.env.CLIENT_ID,
