@@ -19,7 +19,6 @@ console.log('ENV VARIABLES:', {
   OAUTH2_BASE_URL: process.env.OAUTH2_BASE_URL,
 });
 const express = require("express")
-const path = require("path")
 const app = express()
 const queries = require('./public/js/queries.js')
 const bodyParser = require('body-parser')
