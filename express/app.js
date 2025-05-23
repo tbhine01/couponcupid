@@ -1,5 +1,10 @@
 require('dotenv').config();
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+console.log('ENV VARIABLES:', {
+  CLIENT_ID: process.env.CLIENT_ID,
+  CLIENT_SECRET: process.env.CLIENT_SECRET,
+  OAUTH2_BASE_URL: process.env.OAUTH2_BASE_URL,
+});
 const express = require("express")
 const path = require("path")
 const app = express()
