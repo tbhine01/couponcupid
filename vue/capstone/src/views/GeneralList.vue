@@ -150,6 +150,9 @@ function editItem(row) {
                 </div>
             </div>
         </div>
+        <div id="footerLink">
+            <a href="https://github.com/tbhine01/couponcupid"> Visit the CouponCupid GitHub for a video demo and documentation</a>
+        </div>
     </div>  
 </template>
 
@@ -272,4 +275,24 @@ td{
     font-weight: bold;
 }
 
+#footerLink{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    text-align: center;
+    font-family: 'Lobster', sans-serif;
+    padding-bottom: 1rem;
+    padding-top: 0
+}
+#footerLink:hover{
+    text-decoration: underline;
+}
+#footerLink a{
+    text-decoration: none;
+    color: #ff0a54;
+}
+#footerLink a:hover{
+    color: #ff8fa3;
+}
 </style>
