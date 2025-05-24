@@ -2,7 +2,11 @@
 
 Welcome to **CouponCupid** — an app designed to help you make smarter, more informed decisions when grocery shopping! With CouponCupid, you can compare prices between stores, view available coupons, and compile your grocery list with ease.
 
-[![Watch the demo video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+<p align="center">
+  <a href="https://youtu.be/oVR4Bkn38Bw">
+    <img src="https://img.youtube.com/vi/oVR4Bkn38Bw/0.jpg" alt="Watch the demo video">
+  </a>
+</p>
 
 ---
 
