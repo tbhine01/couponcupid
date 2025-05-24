@@ -24,7 +24,7 @@ A couple of things to note as you explore the app:
 
 3. **Product Availability**
    - Some items may appear as **unavailable**.
-   - This occurs because Kroger's API does not return products for certain categories. When this happens, a pop-up will inform you.
+   - This occurs because Kroger's API does not return products for certain categories. When this happens, a pop-up will inform you. Delete the item from the list and resubmit to continue.
 
 ---
 
