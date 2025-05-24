@@ -5,7 +5,6 @@ const buffer = require("buffer");
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const clientId = process.env.CLIENT_ID;
-console.log("clientId:", clientId);
 const clientSecret = process.env.CLIENT_SECRET;
 const oauth2BaseUrl = process.env.OAUTH2_BASE_URL;
 
