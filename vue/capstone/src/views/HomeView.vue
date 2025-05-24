@@ -121,7 +121,7 @@ function login(){
     font-family: 'Lobster', sans-serif;
   }
 
-  /* #get_started{
+  #get_started{
     font-family: 'Lobster', sans-serif;
     width: 50vw;
     height: 10%;
@@ -131,5 +131,5 @@ function login(){
     color: white;
     border: none;
     border-style: outset;
-  } */
+  } 
 </style>

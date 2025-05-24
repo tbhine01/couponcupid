@@ -24,9 +24,14 @@ export const useItemStore = defineStore('items', () => {
 
     function addKrogerItems(items) {
         console.log("Kroger API returned products:", items)
+        const emptyCategory = items.find(category => !category.items || category.items.length === 0)
+        if (emptyCategory) {
+            alert(`No items found for category: ${emptyCategory.category}`)
+            return
+        }
         const itemsWithPrices = assignRandomPricesToKrogerItems(items)
-        console.log("items with prices", assignRandomPricesToKrogerItems(items))
         console.log("items with prices2", itemsWithPrices)
+
         state.krogerItems = itemsWithPrices;
         // state.krogerItems = items
         console.log("state krogeritems", state.krogerItems)

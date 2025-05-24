@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { useItemStore } from '../store/listStore.js'
 import router from '@/router';
 import Header from '@/components/Header.vue';
-
+import { onMounted } from 'vue'
 
 const itemStore = useItemStore()
 
@@ -11,6 +11,12 @@ function storePage(){
   router.push('/store-items')
 }
 
+onMounted(() => {
+  itemStore.state.groceryItems = []
+  itemStore.state.krogerItems = []
+  itemStore.state.krogerLowest = 0
+  itemStore.state.krogerHighest = 0
+})
 
 let groceryItem = ref('')
 let editedIndex = null
