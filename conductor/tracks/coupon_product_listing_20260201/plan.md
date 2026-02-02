@@ -16,7 +16,7 @@ This phase focuses on creating and verifying the backend API endpoints for produ
     - [ ] Implement product filtering logic
     - [ ] Write tests for product pagination (if supported by Kroger API)
     - [ ] Implement product pagination logic
-- [x] Task: Develop API endpoint for coupons (`/api/coupons`)
+- [x] Task: Develop API endpoint for coupons (`/api/coupons`) 6de302d
     - [x] Write tests for coupon retrieval (mocked or derived)
     - [x] Implement coupon retrieval (mocked or derived from product data)
     - [x] Write tests for coupon filtering by product_id
