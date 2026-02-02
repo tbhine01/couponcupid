@@ -1,4 +1,4 @@
-const mockResponse = {
+const mockProductResponse = {
   json: () => Promise.resolve({
     data: [
       {
@@ -22,6 +22,6 @@ const mockResponse = {
   status: 200,
 };
 
-const fetch = jest.fn(() => Promise.resolve(mockResponse));
+const fetch = jest.fn(() => Promise.resolve(mockProductResponse));
 
 module.exports = fetch;

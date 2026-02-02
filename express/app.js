@@ -71,10 +71,11 @@ app.post('locations', async (req, res) => {
     res.send(locations)
 })
 
-
-
-// app.listen(3000)
-// console.log("Express App is running")
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ error: 'Something broke!' });
+});
 
 app.listen(3000, '0.0.0.0', () => {
   console.log('Express App is running')
