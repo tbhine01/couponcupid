@@ -12,7 +12,10 @@ const coupons = [
         "endDatetime": {
             "value": "2024-10-22T11:59:59",
             "timezone": "America/New_York"
-        }
+        },
+        "discount_value": "$1.00",
+        "expiration_date": "2024-10-22",
+        "store": "Kroger"
         // "url": "https://www.kroger.com/discounts/82c6b2fb-3184-4e86-82c9-fa33002fdb09",
         // "thumbnailUrl": "http://www.kroger.com/discount_1234149.png"
     },
@@ -29,7 +32,10 @@ const coupons = [
         "endDatetime": {
             "value": "2024-10-22T11:59:59",
             "timezone": "America/New_York"
-        }
+        },
+        "discount_value": "$3.00",
+        "expiration_date": "2024-10-22",
+        "store": "Kroger"
         // "url": "https://www.kroger.com/discounts/82c6b2fb-3184-4e86-82c9-fa33002fdb09",
         // "thumbnailUrl": "http://www.kroger.com/discount_1234149.png"
     },
@@ -46,7 +52,10 @@ const coupons = [
         "endDatetime": {
             "value": "2024-10-22T11:59:59",
             "timezone": "America/New_York"
-        }
+        },
+        "discount_value": "$2.00",
+        "expiration_date": "2024-10-22",
+        "store": "Kroger"
         // "url": "https://www.kroger.com/discounts/82c6b2fb-3184-4e86-82c9-fa33002fdb09",
         // "thumbnailUrl": "http://www.kroger.com/discount_1234149.png"
     }

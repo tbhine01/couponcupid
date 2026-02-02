@@ -147,10 +147,37 @@ async function getAccessToken() {
 }
 
 
+async function getCoupons(productId) {
+
+
+  const coupons = couponJson.coupons.filter(coupon => coupon.productId === productId);
+
+
+  return coupons;
+
+
+}
+
+
+
+
+
 module.exports = {
+
+
   productSearch,
+
+
   getProducts, 
+
+
   getLocations,
 
-  getAccessToken
+
+  getAccessToken,
+
+
+  getCoupons
+
+
 }
