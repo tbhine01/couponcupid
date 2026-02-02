@@ -71,16 +71,7 @@ app.post('locations', async (req, res) => {
     res.send(locations)
 })
 
-// Users
 
-//Get User by ID
-app.get('/user/:id', queries.getUser)
-
-// Register New User
-app.post('/user', queries.createUser)
-
-// Login 
-app.post('/login', queries.login)
 
 // app.listen(3000)
 // console.log("Express App is running")

@@ -2,31 +2,27 @@
 
 ## Phase 1: Backend API Development (Express.js)
 
-This phase focuses on creating and verifying the backend API endpoints for products and coupons.
+This phase focuses on creating and verifying the backend API endpoints for products and coupons by integrating with the Kroger API.
 
-- [~] Task: Set up database connection and initial models
-    - [ ] Write tests for database connection
-    - [ ] Implement database connection
-    - [ ] Write tests for product model (schema, basic CRUD)
-    - [ ] Implement product model
-    - [ ] Write tests for coupon model (schema, basic CRUD)
-    - [ ] Implement coupon model
+- [~] Task: Refactor and prepare for Kroger API integration
+    - [x] Write tests for database connection (originally intended to fail, now removed)
+    - [x] Implement database connection (originally for PostgreSQL, now removed)
+    - [x] Clean up existing database-related code in `express/public/js/queries.js` and `express/app.js`
+    - [x] Ensure `dotenv` is properly configured for Kroger API credentials.
 - [ ] Task: Develop API endpoint for products (`/api/products`)
-    - [ ] Write tests for product retrieval (no filters, pagination)
-    - [ ] Implement product retrieval endpoint
-    - [ ] Write tests for product filtering (by store, category)
+    - [ ] Write tests for Kroger API product fetching
+    - [ ] Implement product fetching from Kroger API
+    - [ ] Write tests for product filtering by term
     - [ ] Implement product filtering logic
-    - [ ] Write tests for product pagination
+    - [ ] Write tests for product pagination (if supported by Kroger API)
     - [ ] Implement product pagination logic
 - [ ] Task: Develop API endpoint for coupons (`/api/coupons`)
-    - [ ] Write tests for coupon retrieval (no filters, pagination)
-    - [ ] Implement coupon retrieval endpoint
-    - [ ] Write tests for coupon filtering (by store, product, expiration)
+    - [ ] Write tests for coupon retrieval (mocked or derived)
+    - [ ] Implement coupon retrieval (mocked or derived from product data)
+    - [ ] Write tests for coupon filtering by product_id
     - [ ] Implement coupon filtering logic
-    - [ ] Write tests for coupon pagination
-    - [ ] Implement coupon pagination logic
 - [ ] Task: Implement comprehensive error handling for backend APIs
-    - [ ] Write tests for various error scenarios (e.g., invalid input, resource not found)
+    - [ ] Write tests for various error scenarios (e.g., Kroger API errors, invalid input)
     - [ ] Implement error handling middleware/logic
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend API Development (Express.js)' (Protocol in workflow.md)
 

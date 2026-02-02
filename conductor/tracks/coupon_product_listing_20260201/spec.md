@@ -8,19 +8,19 @@ This track focuses on implementing the core functionality for displaying coupons
 ### Backend (Express.js) Requirements
 
 1.  **API Endpoint for Products:**
-    *   Create an endpoint (e.g., `/api/products`) that retrieves a list of products from the PostgreSQL database.
-    *   The endpoint should support filtering (e.g., by store, category) and pagination.
-    *   Each product object should include: `id`, `name`, `description`, `price`, `store`, `category`, and a link to its image.
+    *   Create an endpoint (e.g., `/api/products`) that retrieves a list of products by fetching data from the Kroger API.
+    *   The endpoint should support filtering (e.g., by term) and pagination, as supported by the Kroger API.
+    *   Each product object should include relevant fields available from the Kroger API, such as `productId`, `description`, `price`, `brand`, and a link to its image.
 2.  **API Endpoint for Coupons:**
-    *   Create an endpoint (e.g., `/api/coupons`) that retrieves a list of available coupons from the PostgreSQL database.
-    *   The endpoint should support filtering (e.g., by store, product, expiration date) and pagination.
+    *   Create an endpoint (e.g., `/api/coupons`) that retrieves a list of available coupons. This data will primarily be mocked or derived from product information, as a direct coupon API from Kroger is not explicitly used.
+    *   The endpoint should support filtering (e.g., by product_id).
     *   Each coupon object should include: `id`, `product_id`, `description`, `discount_value`, `expiration_date`, `store`, and `terms_and_conditions`.
-3.  **Database Integration:**
-    *   Ensure the Express.js application correctly connects to the PostgreSQL database.
-    *   Implement data retrieval logic using appropriate database drivers (e.g., `pg` for Node.js).
+3.  **Kroger API Integration:**
+    *   Ensure the Express.js application correctly authenticates and makes requests to the Kroger API using environment variables for credentials.
+    *   Implement data retrieval and parsing logic for Kroger API responses.
 4.  **Error Handling:**
-    *   Implement robust error handling for API endpoints to provide meaningful error messages.
-    *   Handle cases where no products or coupons are found.
+    *   Implement robust error handling for API endpoints to provide meaningful error messages, including handling Kroger API specific errors (e.g., 401 Unauthorized, rate limiting).
+    *   Handle cases where no products or coupons are found from the Kroger API.
 
 ### Frontend (Vue.js) Requirements
 
