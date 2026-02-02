@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement core coupon display and product listing functionality, integrating with the existing Express backend and Vue frontend.**
+- [~] **Track: Implement core coupon display and product listing functionality, integrating with the existing Express backend and Vue frontend.**
   *Link: [./tracks/coupon_product_listing_20260201/](./tracks/coupon_product_listing_20260201/)*

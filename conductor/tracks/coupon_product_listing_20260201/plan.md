@@ -4,7 +4,7 @@
 
 This phase focuses on creating and verifying the backend API endpoints for products and coupons.
 
-- [ ] Task: Set up database connection and initial models
+- [~] Task: Set up database connection and initial models
     - [ ] Write tests for database connection
     - [ ] Implement database connection
     - [ ] Write tests for product model (schema, basic CRUD)

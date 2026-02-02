@@ -14,7 +14,7 @@ function couponCollection(){
 
 function deleteItem(item) {
     for (let i = 0; i < itemStore.getFinalListItems.length; i++) {
-        if (itemStore.getFinalListItems[i] === item) {
+        if (itemStore.getFinalListItems[i] === item) { 
             itemStore.getFinalListItems.splice(i, 1)
         }
     }
