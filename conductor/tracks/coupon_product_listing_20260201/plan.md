@@ -9,7 +9,7 @@ This phase focuses on creating and verifying the backend API endpoints for produ
     - [x] Implement database connection (originally for PostgreSQL, now removed)
     - [x] Clean up existing database-related code in `express/public/js/queries.js` and `express/app.js`
     - [x] Ensure `dotenv` is properly configured for Kroger API credentials.
-- [x] Task: Develop API endpoint for products (`/api/products`)
+- [x] Task: Develop API endpoint for products (`/api/products`) f8ab33b
     - [x] Write tests for Kroger API product fetching
     - [x] Implement product fetching from Kroger API
     - [ ] Write tests for product filtering by term
