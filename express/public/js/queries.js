@@ -3,17 +3,17 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const tokenManager = require("./token_manager.js")
 
 
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
 const couponJson = require('./couponJson.js')
-const pool = require('../../utils/db');
+let accessToken = null;
+let refreshToken = process.env.REFRESH_TOKEN;
 
 
 async function productSearch(item) {
 
-  const location = "02400752"
-  console.log(accessToken)
-  let token = { "Authorization": `Bearer ${accessToken}` }
-
+  if(!accessToken) {
+    await getAccessToken();
+  }
 
   var requestOptions = {
     method: 'GET',
@@ -24,12 +24,12 @@ async function productSearch(item) {
     redirect: 'follow'
   };
 
-  let res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
+  let res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
 
   if(res.status === 401) {
-    const tokenResult = await getAccessToken();
-    requestOptions.headers["Authorization"] = `Bearer ${tokenResult.access_token}`;
-    res = await fetch(`https://api-ce.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
+    await getAccessToken();
+    requestOptions.headers["Authorization"] = `Bearer ${accessToken}`;
+    res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
   }
 
   const data = await res.json()
@@ -61,13 +61,7 @@ async function productSearch(item) {
 async function getProducts(groceryItems) {
   // groceryItems is the list of generic items
   console.log(groceryItems)
-  if(!accessToken) {
-    // make the call to get a new access token using refresh token
-    const refreshResult = await getAccessToken()
-    accessToken = refreshResult.access_token
-    // refreshToken = refreshResult.refresh_token
-    console.log(accessToken)
-  }
+  // accessToken management is now handled by getAccessToken and productSearch
 
   const result = await groceryItems.map(async (item) => {
     const krogerItems = await productSearch(item);
@@ -83,19 +77,29 @@ async function getProducts(groceryItems) {
 }
 
 async function getLocations(zipcode){
-  var myHeaders = new Headers();
-myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCIsImV4cCI6MTcwNTk0NzcyNiwiaWF0IjoxNzA1OTQ1OTIxLCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6ImQxZDFhOTA3LWMxMWQtNTlkYi05ODJkLTRkNzViMTZiNTQyMSIsInNjb3BlIjoiIiwiYXV0aEF0IjoxNzA1OTQ1OTI2NTk1NTY3MzQzLCJhenAiOiJjYXBzdG9uZWNvdXBvbmN1cGlkLWY3MzkyZDNmNDYxMzRkNzUyNWUyOTg5OTFkYjFjNDMyNjkyMDAzMDQzODU2ODY3NDMyMCJ9.NmWVnbJYrhGkQGMghIfeuFjMj_f26OT-E81b6M1_ZoAy8ALnGBz1fZQurYUV_VKTyfRLNJ5oCAZw_lZvQKxFFaKWgczEf5LvRtLMIWPmCP5Y5i62en3e_KOi1MzbWUlgd7VpIJzZLo0gbS3QAjGGPfdk1zgqK7y4wjzXcabN6ZGYgvFP1eIqZZOI2m_RLpacCofw7DF3XM-oCMyS57eFlYHSK4LKJleT3VofDafZxHAQXPr3-HxO2cE9Kl7Xc7Dm-xTWC_cXrF0BmcTfd4qbJZwsFiriujq4gyaIuHgWSRasvtYHDHJUKUK32Sde4o-W9uT9R7QspvHaBIg-sRpVjA");
+  if(!accessToken) {
+    await getAccessToken();
+  }
 
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
-};
+  var requestOptions = {
+    method: 'GET',
+    headers: {
+        "Authorization": `Bearer ${accessToken}`,
+    },
+    redirect: 'follow'
+  };
 
-fetch(`https://api-ce.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+  let res = await fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
+
+  if(res.status === 401) {
+    await getAccessToken();
+    requestOptions.headers["Authorization"] = `Bearer ${accessToken}`;
+    res = await fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
+  }
+
+  const data = await res.json()
+  console.log(data)
+  return data;
 }
 
 
@@ -137,7 +141,9 @@ async function refreshHandler() {
 }
 
 async function getAccessToken() {
-  return await tokenManager.getByAuth();
+  const tokenResult = await tokenManager.getByAuth();
+  accessToken = tokenResult.access_token; // Update the global accessToken
+  return tokenResult;
 }
 
 

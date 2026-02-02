@@ -2,11 +2,12 @@ require("dotenv").config();
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 const buffer = require("buffer");
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-const oauth2BaseUrl = process.env.OAUTH2_BASE_URL;
+const clientId = process.env.KROGER_CLIENT_ID;
+const clientSecret = process.env.KROGER_CLIENT_SECRET;
+const oauth2BaseUrl = process.env.KROGER_OAUTH2_BASE_URL || 'https://api.kroger.com/v1/connect/oauth2';
+
 
 async function fetchToken(formBody) {
     const encoded = buffer.Buffer.from(`${clientId}:${clientSecret}`, 'ascii');
