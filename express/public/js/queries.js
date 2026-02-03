@@ -1,15 +1,11 @@
-require('dotenv').config();
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-const tokenManager = require("./token_manager.js")
 
-
+const tokenManager = require("./token_manager.js");
 const fetch = require('node-fetch');
 const couponJson = require('./couponJson.js')
 let accessToken = null;
 let refreshToken = process.env.REFRESH_TOKEN;
 
-
-async function productSearch(item) {
+async function productSearch(queryTerm, start = 0, limit = 10) {
 
   if(!accessToken) {
     await getAccessToken();
@@ -24,16 +20,17 @@ async function productSearch(item) {
     redirect: 'follow'
   };
 
-  let res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
+  let url = `https://api.kroger.com/v1/products?filter.term=${queryTerm}&filter.start=${start}&filter.limit=${limit}`;
+
+  let res = await fetch(url, requestOptions)
 
   if(res.status === 401) {
-    await getAccessToken();
+    await getAccessToken(); // This will update the global accessToken
     requestOptions.headers["Authorization"] = `Bearer ${accessToken}`;
-    res = await fetch(`https://api.kroger.com/v1/products?filter.term=${item}&filter.start=1&filter.limit=10`, requestOptions)
+    res = await fetch(url, requestOptions)
   }
 
   const data = await res.json()
-  console.log(data)
 
   if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
     return []
@@ -58,21 +55,28 @@ async function productSearch(item) {
 }
 
 
-async function getProducts(groceryItems) {
-  // groceryItems is the list of generic items
-  console.log(groceryItems)
+async function getProducts(groceryItems, term = null, start = 0, limit = 10) {
   // accessToken management is now handled by getAccessToken and productSearch
 
-  const result = await groceryItems.map(async (item) => {
-    const krogerItems = await productSearch(item);
-    let formattedItem = {
-      "category": item,
+  let formattedItems = [];
+  if (term) {
+    const krogerItems = await productSearch(term, start, limit);
+    formattedItems.push({
+      "category": term,
       "items": krogerItems
-    }
-    return formattedItem
-  });
-
-  let formattedItems = await Promise.all(result);
+    });
+  } else {
+    console.log(groceryItems)
+    const result = await groceryItems.map(async (item) => {
+      const krogerItems = await productSearch(item, start, limit);
+      let formattedItem = {
+        "category": item,
+        "items": krogerItems
+      }
+      return formattedItem
+    });
+    formattedItems = await Promise.all(result);
+  }
   return formattedItems
 }
 
@@ -92,36 +96,16 @@ async function getLocations(zipcode){
   let res = await fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
 
   if(res.status === 401) {
-    await getAccessToken();
+    await getAccessToken(); // This will update the global accessToken
     requestOptions.headers["Authorization"] = `Bearer ${accessToken}`;
     res = await fetch(`https://api.kroger.com/v1/locations?filter.zipCode.near=${zipcode}&filter.radiusInMiles=10&filter.limit=10`, requestOptions)
   }
 
   const data = await res.json()
-  console.log(data)
   return data;
 }
 
 
-
-// async function refreshHandler(req, res) {
-//   if (!req.body.refreshToken) {
-//       res.sendStatus(400)
-//       return
-//   }
-
-//   try {
-//       const token = await tokenManager.getByRefresh(req.body.refreshToken)
-//       const result = {
-//           refreshToken: token.refresh_token,
-//           access_token: token.access_token
-//       }
-//   }
-
-//   catch (error) {
-//       console.log(error)
-//   }
-// }
 
 async function refreshHandler() {
   try {
@@ -148,36 +132,15 @@ async function getAccessToken() {
 
 
 async function getCoupons(productId) {
-
-
   const coupons = couponJson.coupons.filter(coupon => coupon.productId === productId);
-
-
   return coupons;
-
-
 }
-
-
-
-
 
 module.exports = {
-
-
   productSearch,
-
-
   getProducts, 
-
-
   getLocations,
-
-
   getAccessToken,
-
-
-  getCoupons
-
-
-}
+  getCoupons,
+  refreshHandler
+};

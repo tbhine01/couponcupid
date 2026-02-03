@@ -1,24 +1,18 @@
-const fs = require('fs');
 const path = require('path');
+// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+require('dotenv').config();
 
-// Try to load from /etc/secrets first (Render), then fallback to local .env
-if (fs.existsSync('/etc/secrets/.env')) {
-  require('dotenv').config({ path: '/etc/secrets/.env' });
-  console.log('Loaded environment from /etc/secrets/.env');
-} else if (fs.existsSync('.env')) {
-  require('dotenv').config();
-  console.log('Loaded environment from local .env');
-} else {
-  console.log('No .env file found, using system environment variables');
-}
-// require('dotenv').config();
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 const express = require("express")
 const app = express()
-const queries = require('./public/js/queries.js')
 const bodyParser = require('body-parser')
 const cors = require("cors")
+const fetch = require('node-fetch'); // Ensure node-fetch is available
+global.fetch = fetch;
+
+const tokenManager = require('./public/js/token_manager.js');
+const queries = require('./public/js/queries.js');
 
 app.use(express.static(path.join(__dirname, '../vue/capstone/dist')))
 app.use(bodyParser.json())
@@ -40,7 +34,8 @@ app.post('/search-store', async (req, res) => {
     // console.log("stuff")
     
     let items = req.body.groceryItems
-    let krogerInfo = await queries.getProducts(items)
+    const { term, start, limit } = req.body;
+    let krogerInfo = await queries.getProducts(items, term, start, limit)
     
     res.send(krogerInfo)
 })

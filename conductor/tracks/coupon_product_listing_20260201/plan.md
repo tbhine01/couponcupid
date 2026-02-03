@@ -8,14 +8,15 @@ This phase focuses on creating and verifying the backend API endpoints for produ
     - [x] Write tests for database connection (originally intended to fail, now removed)
     - [x] Implement database connection (originally for PostgreSQL, now removed)
     - [x] Clean up existing database-related code in `express/public/js/queries.js` and `express/app.js`
-    - [x] Ensure `dotenv` is properly configured for Kroger API credentials.
+    - [x] Ensure `dotenv` is properly configured for Kroger API credentials and `fetch` is available for Node in `app.js`.
+- [c] Task: Remove unused file `express/productsJson.js`
 - [x] Task: Develop API endpoint for products (`/api/products`) f8ab33b
     - [x] Write tests for Kroger API product fetching
     - [x] Implement product fetching from Kroger API
-    - [ ] Write tests for product filtering by term
-    - [ ] Implement product filtering logic
-    - [ ] Write tests for product pagination (if supported by Kroger API)
-    - [ ] Implement product pagination logic
+    - [x] Write tests for product filtering by term
+    - [x] Implement product filtering logic
+    - [x] Write tests for product pagination (if supported by Kroger API)
+    - [x] Implement product pagination logic
 - [x] Task: Develop API endpoint for coupons (`/api/coupons`) 6de302d
     - [x] Write tests for coupon retrieval (mocked or derived)
     - [x] Implement coupon retrieval (mocked or derived from product data)
@@ -24,7 +25,7 @@ This phase focuses on creating and verifying the backend API endpoints for produ
 - [x] Task: Implement comprehensive error handling for backend APIs 19b1fef
     - [x] Write tests for various error scenarios (e.g., Kroger API errors, invalid input)
     - [x] Implement error handling middleware/logic
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend API Development (Express.js)' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Backend API Development (Express.js)' (Protocol in workflow.md)
 
 ## Phase 2: Frontend UI Development (Vue.js)
 
