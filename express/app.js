@@ -34,8 +34,8 @@ app.post('/search-store', async (req, res) => {
     // console.log("stuff")
     
     let items = req.body.groceryItems
-    const { term, start, limit } = req.body;
-    let krogerInfo = await queries.getProducts(items, term, start, limit)
+    const { term, start, limit, locationId } = req.body;
+    let krogerInfo = await queries.getProducts(items, term, start, limit, locationId)
     
     res.send(krogerInfo)
 })

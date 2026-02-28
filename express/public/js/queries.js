@@ -5,7 +5,7 @@ const couponJson = require('./couponJson.js')
 let accessToken = null;
 let refreshToken = process.env.REFRESH_TOKEN;
 
-async function productSearch(queryTerm, start = 0, limit = 10) {
+async function productSearch(queryTerm, start = 0, limit = 10, locationId) {
 
   if(!accessToken) {
     await getAccessToken();
@@ -21,6 +21,9 @@ async function productSearch(queryTerm, start = 0, limit = 10) {
   };
 
   let url = `https://api.kroger.com/v1/products?filter.term=${queryTerm}&filter.start=${start}&filter.limit=${limit}`;
+  if (locationId) {
+    url += `&filter.locationId=${locationId}`;
+  }
 
   let res = await fetch(url, requestOptions)
 
@@ -37,17 +40,17 @@ async function productSearch(queryTerm, start = 0, limit = 10) {
   }
 
   return data.data.map(item => {
-    let imageArray = item.images.find(i => i.perspective === "front")
-    let image = imageArray.sizes.find(i => i.size === "small")
+    let imageArray = item.images.find(i => i.perspective === "front") || item.images[0];
+    let image = imageArray ? (imageArray.sizes.find(i => i.size === "small") || imageArray.sizes[0]) : null;
 
     const coupon = couponJson.coupons.filter(coupon => coupon.productId === item.productId)
     let formattedItem = {
       "productId": item.productId,
       "upc": item.upc,
-      "price": item.items[0].price,
+      "price": (item.items && item.items.length > 0) ? item.items[0].price : null,
       "brand": item.brand,
       "description": item.description,
-      "image": image.url,
+      "image": image ? image.url : null,
       "coupon": coupon.length === 0 ? null : coupon[0]
     }
     return formattedItem
@@ -55,12 +58,12 @@ async function productSearch(queryTerm, start = 0, limit = 10) {
 }
 
 
-async function getProducts(groceryItems, term = null, start = 0, limit = 10) {
+async function getProducts(groceryItems, term = null, start = 0, limit = 10, locationId) {
   // accessToken management is now handled by getAccessToken and productSearch
 
   let formattedItems = [];
   if (term) {
-    const krogerItems = await productSearch(term, start, limit);
+    const krogerItems = await productSearch(term, start, limit, locationId);
     formattedItems.push({
       "category": term,
       "items": krogerItems
@@ -68,7 +71,7 @@ async function getProducts(groceryItems, term = null, start = 0, limit = 10) {
   } else {
     console.log(groceryItems)
     const result = await groceryItems.map(async (item) => {
-      const krogerItems = await productSearch(item, start, limit);
+      const krogerItems = await productSearch(item, start, limit, locationId);
       let formattedItem = {
         "category": item,
         "items": krogerItems
